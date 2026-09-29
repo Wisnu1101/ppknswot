@@ -38,136 +38,136 @@ export default function Hero() {
       <div className="relative mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         
         {/* -----------------------------------------------------------------------
-            FLOATING ELEMENTS AROUND LAPTOP (Indonesian & Antigravity 3D Elements)
+            PLAYFUL PASTEL FLOATING DOODLES & ICONS (Directly matching image_0.png)
            ----------------------------------------------------------------------- */}
-        
-        {/* Element 1: Bendera Merah Putih (Top Left) */}
-        <div className="absolute -top-6 left-2 sm:left-6 z-20 animate-float-1 hidden sm:block">
-          <div className="group relative flex items-center gap-2 rounded-2xl bg-white/90 p-2.5 shadow-xl backdrop-blur-md border border-amber-200/80 transition-transform hover:scale-110">
-            <div className="relative h-10 w-14 overflow-hidden rounded-lg shadow-sm border border-slate-200">
-              <div className="h-1/2 w-full bg-red-600"></div>
-              <div className="h-1/2 w-full bg-white"></div>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-            </div>
-            <div className="pr-1 text-left">
-              <span className="block text-[11px] font-black text-slate-800 leading-tight">Merah Putih</span>
-              <span className="block text-[9px] font-semibold text-red-600">Identitas Bangsa</span>
-            </div>
-          </div>
-        </div>
 
-        {/* Element 2: Monas (Monumen Nasional) (Top Right) */}
-        <div className="absolute -top-8 right-3 sm:right-10 z-20 animate-float-2 hidden sm:block">
-          <div className="group flex items-center gap-2.5 rounded-2xl bg-white/95 p-2.5 shadow-xl backdrop-blur-md border border-amber-200/80 hover:scale-110 transition-transform">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100/90 text-amber-700 shadow-inner">
-              {/* Stylized Monas Icon */}
-              <svg viewBox="0 0 64 64" className="h-8 w-8 drop-shadow-sm" fill="none">
-                <path d="M32 6L35 18H29L32 6Z" fill="#F59E0B" />
-                <path d="M30 18H34L33 42H31L30 18Z" fill="#D97706" />
-                <rect x="25" y="42" width="14" height="6" rx="1" fill="#92400E" />
-                <rect x="20" y="48" width="24" height="4" rx="1" fill="#78350F" />
-                <circle cx="32" cy="11" r="3" fill="#FDE047" className="animate-pulse" />
-              </svg>
-            </div>
-            <div className="pr-1 text-left">
-              <span className="block text-xs font-black text-slate-800">Monas</span>
-              <span className="block text-[9px] font-semibold text-amber-600">Simbol Kedaulatan</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Element 3: Wayang Mask (Traditional Culture) (Mid-Left) */}
-        <div className="absolute top-1/3 -left-4 sm:-left-8 z-20 animate-float-3 hidden md:block">
-          <div className="group flex items-center gap-2 rounded-2xl bg-purple-900 text-white p-2.5 shadow-2xl border border-purple-400/40 hover:scale-110 transition-transform">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-purple-800 shadow-inner">
-              {/* Stylized Wayang / Gunungan SVG */}
-              <svg viewBox="0 0 24 24" className="h-7 w-7 text-amber-400" fill="currentColor">
-                <path d="M12 2L6 9C6 13 8 16 12 22C16 16 18 13 18 9L12 2ZM12 6.5C12.8 6.5 13.5 7.2 13.5 8C13.5 8.8 12.8 9.5 12 9.5C11.2 9.5 10.5 8.8 10.5 8C10.5 7.2 11.2 6.5 12 6.5ZM9 13C9.6 13 10 13.4 10 14C10 14.6 9.6 15 9 15C8.4 15 8 14.6 8 14C8 13.4 8.4 13 9 13ZM15 13C15.6 13 16 13.4 16 14C16 14.6 15.6 15 15 15C14.4 15 14 14.6 14 14C14 13.4 14.4 13 15 13Z" />
-              </svg>
-            </div>
-            <div className="pr-2 text-left">
-              <span className="block text-xs font-bold text-amber-300">Wayang Heritage</span>
-              <span className="block text-[9px] text-purple-200">Kearifan Budaya</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Element 4: Angklung & Nada Kebersamaan (Mid-Right) */}
-        <div className="absolute top-1/3 -right-4 sm:-right-8 z-20 animate-float-1 hidden md:block">
-          <div className="group flex items-center gap-2 rounded-2xl bg-white/95 p-2.5 shadow-xl border border-amber-200 hover:scale-110 transition-transform">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-50 text-amber-800 shadow-inner">
-              {/* Stylized Bamboo Angklung SVG */}
-              <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="4" y="3" width="3" height="18" rx="1.5" fill="#D97706" />
-                <rect x="10.5" y="6" width="3" height="15" rx="1.5" fill="#B45309" />
-                <rect x="17" y="9" width="3" height="12" rx="1.5" fill="#92400E" />
-                <line x1="2" y1="12" x2="22" y2="12" stroke="#78350F" strokeWidth="2" />
-              </svg>
-            </div>
-            <div className="pr-2 text-left">
-              <span className="block text-xs font-bold text-slate-800">Harmoni Angklung</span>
-              <span className="block text-[9px] font-semibold text-amber-700">Persatuan Bangsa</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Element 5: Garuda Pancasila Emblem (Bottom Left of Laptop) */}
-        <div className="absolute bottom-16 -left-3 sm:left-4 z-20 animate-float-2 hidden sm:block">
-          <div className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 text-white p-2.5 shadow-xl border border-amber-300 hover:scale-105 transition-transform">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 backdrop-blur-xs">
-              {/* Garuda Emblem representation */}
-              <svg viewBox="0 0 24 24" className="h-6 w-6 text-white" fill="currentColor">
-                <path d="M12 2L15 7H19L16 11L18 16L12 13L6 16L8 11L5 7H9L12 2Z" />
-              </svg>
-            </div>
-            <div className="pr-1 text-left">
-              <span className="block text-xs font-black">Garuda Pancasila</span>
-              <span className="block text-[9px] text-amber-100 font-semibold">Bhinneka Tunggal Ika</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Element 6: Archipelago Nusantara Map & Data Chart (Bottom Right of Laptop) */}
-        <div className="absolute bottom-14 -right-2 sm:right-4 z-20 animate-float-3 hidden sm:block">
-          <div className="flex items-center gap-2.5 rounded-2xl bg-slate-900 text-white p-2.5 shadow-2xl border border-purple-500/40 hover:scale-105 transition-transform">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-600/40 text-purple-300">
-              {/* Archipelago map and trend icon */}
-              <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
-              </svg>
-            </div>
-            <div className="pr-1 text-left">
-              <div className="flex items-center gap-1.5">
-                <span className="text-xs font-bold text-white">Kepulauan Nusantara</span>
-                <span className="rounded bg-emerald-500/20 px-1 py-0.5 text-[8px] font-bold text-emerald-400">+17.508 Pulau</span>
-              </div>
-              <span className="block text-[9px] text-slate-400">Peluang Geopolitik Global</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Small Antigravity Doodles (Stars, Spaceship, Cloud, Flower) */}
-        <div className="pointer-events-none absolute top-12 left-1/4 text-amber-400 animate-icon-drift opacity-80">
-          <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2l2.4 7.2h7.6l-6.1 4.5 2.3 7.3-6.2-4.6-6.2 4.6 2.3-7.3-6.1-4.5h7.6z" />
+        {/* 1. Pastel Periwinkle 4-Point Star Sparkle (Top-Left) */}
+        <div className="pointer-events-none absolute -top-8 left-4 sm:left-12 z-20 animate-float-1">
+          <svg className="h-10 w-10 sm:h-14 sm:w-14 text-[#c4b5fd] drop-shadow-xs" viewBox="0 0 48 48" fill="currentColor">
+            <path d="M24 2C24 14 14 24 2 24C14 24 24 34 24 46C24 34 34 24 46 24C34 24 24 14 24 2Z" />
           </svg>
         </div>
 
-        <div className="pointer-events-none absolute top-4 right-1/3 text-lime-500 animate-icon-slow opacity-80">
-          {/* Cute Rocket / Spaceship */}
-          <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.63 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.58-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+        {/* 2. Pastel Lime-Green 6-Petal Flower (Mid-Left) */}
+        <div className="pointer-events-none absolute top-1/4 -left-6 sm:-left-12 z-20 animate-float-2">
+          <svg className="h-16 w-16 sm:h-22 sm:w-22 drop-shadow-xs transform -rotate-12" viewBox="0 0 100 100" fill="none">
+            {/* 6 Rounded Flower Petals */}
+            <circle cx="50" cy="22" r="16" fill="#bef264" />
+            <circle cx="74" cy="36" r="16" fill="#bef264" />
+            <circle cx="74" cy="64" r="16" fill="#bef264" />
+            <circle cx="50" cy="78" r="16" fill="#bef264" />
+            <circle cx="26" cy="64" r="16" fill="#bef264" />
+            <circle cx="26" cy="36" r="16" fill="#bef264" />
+            {/* Center Circle */}
+            <circle cx="50" cy="50" r="15" fill="#fde047" />
+            <circle cx="50" cy="50" r="8" fill="#fef08a" />
           </svg>
         </div>
 
-        <div className="pointer-events-none absolute bottom-8 left-1/3 text-purple-400 animate-icon-drift opacity-70">
-          {/* Flower / Star */}
-          <svg className="h-7 w-7" viewBox="0 0 24 24" fill="currentColor">
-            <circle cx="12" cy="12" r="3" />
-            <circle cx="12" cy="6" r="2.5" />
-            <circle cx="12" cy="18" r="2.5" />
-            <circle cx="6" cy="12" r="2.5" />
-            <circle cx="18" cy="12" r="2.5" />
+        {/* 3. Cute Stylized Pastel 3D Tower / Lighthouse (Near Yellow Sparkle) */}
+        <div className="pointer-events-none absolute top-1/3 mt-12 right-4 sm:right-8 z-20 animate-float-3">
+          <svg className="h-16 w-16 sm:h-20 sm:w-20 drop-shadow-md" viewBox="0 0 80 80" fill="none">
+            {/* Soft Purple Round Base Platform */}
+            <ellipse cx="40" cy="66" rx="28" ry="10" fill="#c7d2fe" />
+            <ellipse cx="40" cy="64" rx="24" ry="8" fill="#e0e7ff" />
+            {/* Tower Body */}
+            <path d="M28 62L34 32H46L52 62Z" fill="#f87171" />
+            <path d="M30 52L32 42H48L50 52Z" fill="#ffffff" />
+            {/* Balcony Railing */}
+            <rect x="30" y="29" width="20" height="4" rx="2" fill="#818cf8" />
+            {/* Lantern Room */}
+            <rect x="33" y="21" width="14" height="8" rx="2" fill="#fef08a" />
+            {/* Roof Dome */}
+            <path d="M32 21C32 15 48 15 48 21Z" fill="#ef4444" />
+            <circle cx="40" cy="13" r="2.5" fill="#f59e0b" />
+          </svg>
+        </div>
+
+        {/* 4. Pastel Sunburst / Sparkle Lines Doodle (Top-Right) */}
+        <div className="pointer-events-none absolute -top-8 right-6 sm:right-16 z-20 animate-icon-slow">
+          <svg className="h-12 w-12 sm:h-16 sm:w-16 text-[#c4b5fd]" viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
+            <line x1="32" y1="6" x2="32" y2="18" />
+            <line x1="32" y1="46" x2="32" y2="58" />
+            <line x1="6" y1="32" x2="18" y2="32" />
+            <line x1="46" y1="32" x2="58" y2="32" />
+            <line x1="14" y1="14" x2="23" y2="23" />
+            <line x1="41" y1="41" x2="50" y2="50" />
+            <line x1="14" y1="50" x2="23" y2="41" />
+            <line x1="41" y1="23" x2="50" y2="14" />
+          </svg>
+        </div>
+
+        {/* Element 5 replacement: Pastel Plus / Cross Doodle (Bottom Left of Laptop) */}
+        <div className="pointer-events-none absolute bottom-20 -left-2 sm:left-6 z-20 animate-float-2 opacity-90">
+          <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+            <rect x="20" y="4" width="12" height="44" rx="6" fill="#bef264" />
+            <rect x="4" y="20" width="44" height="12" rx="6" fill="#bef264" />
+          </svg>
+        </div>
+
+        {/* Element 6 replacement: Cute Pastel Rocket (Bottom Right of Laptop) */}
+        <div className="pointer-events-none absolute bottom-16 -right-2 sm:right-6 z-20 animate-float-3 opacity-90">
+          <svg width="52" height="62" viewBox="0 0 52 62" fill="none">
+            {/* Rocket body */}
+            <rect x="16" y="18" width="20" height="28" rx="6" fill="#f87171" />
+            {/* Nose cone */}
+            <ellipse cx="26" cy="16" rx="10" ry="13" fill="#38bdf8" />
+            {/* Left fin */}
+            <path d="M16 42 L6 56 L18 50 Z" fill="#60a5fa" />
+            {/* Right fin */}
+            <path d="M36 42 L46 56 L34 50 Z" fill="#60a5fa" />
+            {/* Flame */}
+            <ellipse cx="26" cy="49" rx="5" ry="7" fill="#fde047" opacity="0.85" />
+            {/* Window */}
+            <circle cx="26" cy="30" r="5" fill="white" opacity="0.8" />
+          </svg>
+        </div>
+
+        {/* Small Pastel Doodles (replacing old star/rocket/flower icons) */}
+        {/* Doodle Arrow */}
+        <div className="pointer-events-none absolute top-10 left-1/4 animate-icon-drift opacity-85">
+          <svg width="44" height="36" viewBox="0 0 44 36" fill="none">
+            <path d="M4 28 Q14 4 36 12" stroke="#a78bfa" strokeWidth="3" strokeDasharray="5 4" strokeLinecap="round" fill="none" />
+            <path d="M28 6 L38 14 L26 16" stroke="#a78bfa" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          </svg>
+        </div>
+
+        {/* Pink 8-petal flower */}
+        <div className="pointer-events-none absolute top-6 right-1/4 animate-icon-slow opacity-85">
+          <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+            <ellipse cx="19" cy="10" rx="4.5" ry="7" fill="#fda4af" />
+            <ellipse cx="19" cy="28" rx="4.5" ry="7" fill="#fda4af" />
+            <ellipse cx="10" cy="19" rx="7" ry="4.5" fill="#fda4af" />
+            <ellipse cx="28" cy="19" rx="7" ry="4.5" fill="#fda4af" />
+            <ellipse cx="12.5" cy="12.5" rx="4.5" ry="7" fill="#fecdd3" transform="rotate(45 12.5 12.5)" />
+            <ellipse cx="25.5" cy="12.5" rx="4.5" ry="7" fill="#fecdd3" transform="rotate(-45 25.5 12.5)" />
+            <ellipse cx="12.5" cy="25.5" rx="4.5" ry="7" fill="#fecdd3" transform="rotate(-45 12.5 25.5)" />
+            <ellipse cx="25.5" cy="25.5" rx="4.5" ry="7" fill="#fecdd3" transform="rotate(45 25.5 25.5)" />
+            <circle cx="19" cy="19" r="5.5" fill="#fb7185" />
+          </svg>
+        </div>
+
+        {/* Soft cloud doodle */}
+        <div className="pointer-events-none absolute bottom-10 left-1/4 animate-icon-drift opacity-75">
+          <svg width="52" height="34" viewBox="0 0 52 34" fill="none">
+            <circle cx="18" cy="22" r="10" fill="#e0e7ff" />
+            <circle cx="32" cy="22" r="10" fill="#e0e7ff" />
+            <circle cx="25" cy="16" r="12" fill="#e0e7ff" />
+            <rect x="8" y="22" width="36" height="10" rx="5" fill="#e0e7ff" />
+          </svg>
+        </div>
+
+        {/* Yellow diamond sparkle */}
+        <div className="pointer-events-none absolute top-1/3 right-6 animate-icon-slow opacity-80">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 2 L18 14 L30 16 L18 18 L16 30 L14 18 L2 16 L14 14 Z" fill="#fde047" />
+          </svg>
+        </div>
+
+        {/* Cyan wavy loop doodle */}
+        <div className="pointer-events-none absolute bottom-14 right-1/4 animate-icon-drift opacity-75">
+          <svg width="46" height="28" viewBox="0 0 46 28" fill="none">
+            <path d="M4 20 Q10 4 18 14 Q26 24 34 12 Q40 4 44 14" stroke="#67e8f9" strokeWidth="3" strokeLinecap="round" fill="none" />
           </svg>
         </div>
 
@@ -183,7 +183,7 @@ export default function Hero() {
           <div className="relative rounded-3xl bg-gradient-to-b from-slate-800 to-slate-950 p-3 sm:p-4 shadow-[0_30px_70px_rgba(15,23,42,0.35)] ring-1 ring-white/20">
             
             {/* Webcam / Notch Area */}
-            <div className="absolute top-2 left-1/2 flex -translate-x-1/2 items-center gap-1.5 z-30">
+            <div className="absolute top-[4px] left-1/2 flex -translate-x-1/2 items-center gap-1.5 z-30">
               <div className="h-2 w-2 rounded-full bg-slate-700 ring-1 ring-slate-600"></div>
               <div className="h-1 w-1 rounded-full bg-emerald-500 animate-pulse"></div>
             </div>
@@ -228,7 +228,20 @@ export default function Hero() {
               </div>
 
               {/* SCREEN MAIN BODY (Website Content Redesign) */}
-              <div className="relative px-6 py-8 sm:px-12 sm:py-12 text-center bg-gradient-to-b from-[#fefefc] to-[#fbf8ee]">
+              <div
+                className="relative px-6 py-8 sm:px-12 sm:py-12 text-center"
+                style={{
+                  backgroundColor: '#fffdf4',
+                  backgroundImage: [
+                    'url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 180 180%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%220.12%22/%3E%3C/svg%3E")',
+                    'radial-gradient(ellipse at top left, rgba(196, 181, 253, 0.2), transparent 36%)',
+                    'radial-gradient(ellipse at top right, rgba(253, 224, 71, 0.17), transparent 36%)',
+                    'radial-gradient(ellipse at bottom left, rgba(253, 224, 71, 0.14), transparent 38%)',
+                    'radial-gradient(ellipse at bottom right, rgba(196, 181, 253, 0.18), transparent 38%)',
+                  ].join(', '),
+                  backgroundBlendMode: 'soft-light, normal, normal, normal, normal',
+                }}
+              >
                 
                 {/* Decorative Doodles on Screen (like arrows & heart in image_0.png) */}
                 <div className="pointer-events-none absolute top-6 left-8 text-purple-400 hidden sm:block">
@@ -291,8 +304,8 @@ export default function Hero() {
                       label="Pendahuluan"
                       sublabel="Latar Belakang & Urgensi"
                       items={['Latar Belakang', 'Tujuan Kajian', 'Wawasan Nusantara']}
-                      folderColor="#4f46e5"
-                      frontColor="#6366f1"
+                      folderColor="#9333ea"
+                      frontColor="#9333ea"
                       paperColor="#e0e7ff"
                       itemColor="#ffffff"
                       itemTextColor="#312e81"
@@ -314,12 +327,12 @@ export default function Hero() {
                       label="SWOT"
                       sublabel="4 Pilar Analisis"
                       items={['Strengths (Kekuatan)', 'Weaknesses (Kelemahan)', 'Opportunities (Peluang)', 'Threats (Ancaman)']}
-                      folderColor="#9333ea"
-                      frontColor="#a855f7"
+                      folderColor="#bef264"
+                      frontColor="#bef264"
                       paperColor="#f3e8ff"
                       itemColor="#ffffff"
                       itemTextColor="#581c87"
-                      labelColor="#ffffff"
+                      labelColor="#064e3b"
                       width={144}
                       height={104}
                       radius={12}
@@ -337,12 +350,12 @@ export default function Hero() {
                       label="Kesimpulan"
                       sublabel="Rangkuman & Solusi"
                       items={['Sintesis Kebijakan', 'Rekomendasi Strategis', 'Aksi Pemuda 2045']}
-                      folderColor="#ea580c"
-                      frontColor="#f97316"
+                      folderColor="#fde047"
+                      frontColor="#fde047"
                       paperColor="#ffedd5"
                       itemColor="#ffffff"
                       itemTextColor="#7c2d12"
-                      labelColor="#ffffff"
+                      labelColor="#422006"
                       width={144}
                       height={104}
                       radius={12}
@@ -360,12 +373,12 @@ export default function Hero() {
                       label="Quiz"
                       sublabel="Uji Pemahaman"
                       items={['Mulai Uji Materi', 'Evaluasi Pemahaman', 'Skor & Prestasi']}
-                      folderColor="#059669"
-                      frontColor="#10b981"
+                      folderColor="#ff4fa3"
+                      frontColor="#ff4fa3"
                       paperColor="#d1fae5"
                       itemColor="#ffffff"
                       itemTextColor="#064e3b"
-                      labelColor="#ffffff"
+                      labelColor="#4a102e"
                       width={144}
                       height={104}
                       radius={12}
@@ -382,13 +395,13 @@ export default function Hero() {
                     BUTTON & TEAM AVATAR (Kelompok 1)
                    ----------------------------------------------------------------- */}
                 <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-                  {/* Prominent Green Button: "Explore ->" */}
+                  {/* Prominent Green Button: "Explore →" */}
                   <a
                     href="#swot"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#84cc16] px-8 py-3.5 text-base font-extrabold text-slate-900 shadow-md shadow-lime-500/30 transition-all hover:bg-[#65a30d] hover:scale-105 hover:shadow-lg active:scale-95 cursor-pointer ring-2 ring-lime-300"
+                    className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#84cc16] px-8 py-3.5 text-base font-extrabold text-slate-900 shadow-md shadow-lime-500/30 transition-all hover:bg-[#65a30d] hover:scale-105 hover:shadow-lg active:scale-95 cursor-pointer ring-2 ring-lime-300"
                   >
                     <span>Explore</span>
-                    <span className="font-mono text-lg font-black transition-transform group-hover:translate-x-1">-&gt;</span>
+                    <span className="text-xl leading-none transition-transform group-hover:translate-x-1">→</span>
                   </a>
 
                   {/* Team Avatar: Labeled "Kelompok 1" */}

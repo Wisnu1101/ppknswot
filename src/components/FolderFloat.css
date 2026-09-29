@@ -81,14 +81,16 @@
   z-index: 2;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
   gap: 5px;
   height: 76%;
   padding: 14px 16px;
   box-sizing: border-box;
   border-radius: var(--ff-r);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--ff-front) 92%, #fff), var(--ff-front) 60%);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--ff-front) 92%, #fff), var(--ff-front));
   color: var(--ff-label);
+  text-align: center;
   box-shadow: 0 -10px 24px rgba(0, 0, 0, 0.28);
   transform: perspective(600px) rotateX(calc(-1 * var(--ff-rest)));
   transform-origin: 50% 100%;
@@ -96,13 +98,15 @@
 }
 
 .folder-float__label {
+  max-width: 100%;
   font-size: 13px;
   font-weight: 500;
 }
 
 .folder-float__sub {
+  max-width: 100%;
   font-size: 11px;
-  opacity: 0.55;
+  opacity: 1;
 }
 
 .folder-float__trigger {

@@ -1,28 +1,62 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { Tabs } from './ui/vercel-tabs'
+
+const navItems = [
+  { id: 'hero', label: 'Beranda' },
+  { id: 'pendahuluan', label: 'Pendahuluan' },
+  { id: 'swot', label: 'SWOT' },
+  { id: 'kesimpulan', label: 'Kesimpulan' },
+  { id: 'quiz', label: 'Quiz' },
+  { id: 'about-us', label: 'About Us' },
+]
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState('hero')
 
-  const navItems = [
-    { label: 'Beranda', href: '#hero' },
-    { label: 'Pendahuluan', href: '#pendahuluan' },
-    { label: 'SWOT', href: '#swot' },
-    { label: 'Kesimpulan', href: '#kesimpulan' },
-    { label: 'Quiz', href: '#quiz' },
-    { label: 'About Us', href: '#about-us' },
-  ]
+  useEffect(() => {
+    let frameId = 0
+
+    const updateActiveSection = () => {
+      window.cancelAnimationFrame(frameId)
+      frameId = window.requestAnimationFrame(() => {
+        const marker = window.scrollY + window.innerHeight * 0.3
+        let nextActiveTab = navItems[0].id
+
+        navItems.forEach((item) => {
+          const section = document.getElementById(item.id)
+          if (section && section.getBoundingClientRect().top + window.scrollY <= marker) {
+            nextActiveTab = item.id
+          }
+        })
+
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+          nextActiveTab = navItems[navItems.length - 1].id
+        }
+
+        setActiveTab((current) => current === nextActiveTab ? current : nextActiveTab)
+      })
+    }
+
+    window.addEventListener('scroll', updateActiveSection, { passive: true })
+    window.addEventListener('resize', updateActiveSection)
+    updateActiveSection()
+
+    return () => {
+      window.cancelAnimationFrame(frameId)
+      window.removeEventListener('scroll', updateActiveSection)
+      window.removeEventListener('resize', updateActiveSection)
+    }
+  }, [])
 
   return (
     <nav className="fixed top-0 left-0 z-50 w-full border-b border-amber-200/70 bg-[#fdfbf3]/85 backdrop-blur-md transition-all">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Brand */}
-          <a href="#hero" className="group flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-red-500 to-rose-600 text-white shadow-sm ring-2 ring-red-200 transition-transform group-hover:scale-105">
-              <span className="text-base font-black tracking-tighter">KB</span>
-            </span>
+          <a href="#hero" className="group flex items-center">
             <div className="flex flex-col">
-              <span className="font-extrabold tracking-tight text-slate-900 group-hover:text-red-600 transition-colors text-base sm:text-lg">
+              <span className="font-extrabold tracking-tight text-slate-900 group-hover:text-purple-700 transition-colors text-base sm:text-lg">
                 KILAS BANGSA
               </span>
               <span className="text-[10px] font-semibold text-slate-500 tracking-wider uppercase">
@@ -32,17 +66,12 @@ export default function Navbar() {
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:gap-1 lg:gap-2">
-            {navItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="rounded-full px-3.5 py-1.5 text-xs font-semibold text-slate-700 transition-all hover:bg-amber-100/80 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-300"
-              >
-                {item.label}
-              </a>
-            ))}
-          </div>
+          <Tabs
+            className="hidden md:flex"
+            tabs={navItems}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+          />
 
           {/* Right badge & CTA */}
           <div className="hidden sm:flex sm:items-center sm:gap-3">
@@ -89,9 +118,17 @@ export default function Navbar() {
             {navItems.map((item) => (
               <a
                 key={item.label}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                className="block rounded-lg px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-amber-100 hover:text-slate-950 transition-colors"
+                href={`#${item.id}`}
+                onClick={() => {
+                  setActiveTab(item.id)
+                  setIsOpen(false)
+                }}
+                aria-current={activeTab === item.id ? 'page' : undefined}
+                className={`block rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${
+                  activeTab === item.id
+                    ? 'bg-purple-100 text-purple-900'
+                    : 'text-slate-800 hover:bg-amber-100 hover:text-slate-950'
+                }`}
               >
                 {item.label}
               </a>
@@ -106,7 +143,7 @@ export default function Navbar() {
               onClick={() => setIsOpen(false)}
               className="rounded-full bg-[#84cc16] px-4 py-1.5 text-xs font-bold text-slate-900 hover:bg-[#65a30d]"
             >
-              Explore -&gt;
+              Explore →
             </a>
           </div>
         </div>
