@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import TechText from './TechText'
+import FolderFloat from './FolderFloat'
 
 export default function Hero() {
   const [activeScreenTab, setActiveScreenTab] = useState('Beranda')
@@ -249,14 +251,26 @@ export default function Hero() {
                   </svg>
                 </div>
 
-                {/* HERO TITLE (Large, Bold Text in Multiple Lines as requested) */}
-                <div className="mb-2">
-                  <h1 className="text-4xl font-black tracking-tight text-slate-900 sm:text-6xl md:text-7xl leading-none">
-                    <span className="block drop-shadow-xs">KILAS</span>
-                    <span className="block bg-gradient-to-r from-purple-800 via-indigo-900 to-purple-900 bg-clip-text text-transparent">
-                      BANGSA
-                    </span>
-                  </h1>
+                {/* HERO TITLE: Single Interactive <TechText /> Component from React Bits */}
+                <h1 className="sr-only">KILAS BANGSA</h1>
+                <div className="mx-auto my-2 w-full max-w-2xl sm:max-w-3xl flex items-center justify-center">
+                  <div className="relative w-full h-14 sm:h-20 md:h-24 lg:h-28">
+                    <TechText
+                      text="KILAS BANGSA"
+                      fontWeight={900}
+                      fontSize={130}
+                      letterSpacing={-0.03}
+                      color="#0f172a"
+                      accentColor="#7c3aed"
+                      reveal="letter"
+                      dashLength={4}
+                      dashGap={2}
+                      specks={16}
+                      draggable={true}
+                      sweep={true}
+                      speed={1}
+                    />
+                  </div>
                 </div>
 
                 {/* SUBTITLE */}
@@ -265,60 +279,101 @@ export default function Hero() {
                 </p>
 
                 {/* -----------------------------------------------------------------
-                    KEY FEATURES (4 Purple-Hued Floating Info Cards / Bubbles)
+                    KEY SECTIONS: 4 Interactive <FolderFloat /> Components from React Bits
+                    (Pendahuluan, SWOT, Kesimpulan, Quiz) with physics and direct section links
                    ----------------------------------------------------------------- */}
-                <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 text-left">
+                <div className="mt-14 sm:mt-16 pt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-4 lg:gap-3 justify-items-center items-end">
                   
-                  {/* Bubble 1: Analisis Strategis SWOT Nasional */}
-                  <div className="group relative rounded-2xl bg-purple-100/90 p-3 shadow-sm border border-purple-200/90 transition-all hover:-translate-y-1 hover:bg-purple-200/80 hover:shadow-md">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-purple-600 text-[10px] font-black text-white">
-                        S
-                      </span>
-                      <span className="text-[10px] font-black uppercase tracking-wider text-purple-700">SWOT</span>
-                    </div>
-                    <h3 className="text-xs font-bold text-purple-950 leading-tight">
-                      Analisis Strategis SWOT Nasional
-                    </h3>
+                  {/* Folder 1: Pendahuluan (Pastel Indigo/Sky) */}
+                  <div className="flex flex-col items-center">
+                    <FolderFloat
+                      href="#pendahuluan"
+                      label="Pendahuluan"
+                      sublabel="Latar Belakang & Urgensi"
+                      items={['Latar Belakang', 'Tujuan Kajian', 'Wawasan Nusantara']}
+                      folderColor="#4f46e5"
+                      frontColor="#6366f1"
+                      paperColor="#e0e7ff"
+                      itemColor="#ffffff"
+                      itemTextColor="#312e81"
+                      labelColor="#ffffff"
+                      width={144}
+                      height={104}
+                      radius={12}
+                      spread={88}
+                      lift={22}
+                      trigger="hover"
+                      physics={true}
+                    />
                   </div>
 
-                  {/* Bubble 2: Wawasan Geopolitik Terkini */}
-                  <div className="group relative rounded-2xl bg-purple-100/90 p-3 shadow-sm border border-purple-200/90 transition-all hover:-translate-y-1 hover:bg-purple-200/80 hover:shadow-md">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-indigo-600 text-[10px] font-black text-white">
-                        W
-                      </span>
-                      <span className="text-[10px] font-black uppercase tracking-wider text-indigo-700">Geopolitik</span>
-                    </div>
-                    <h3 className="text-xs font-bold text-purple-950 leading-tight">
-                      Wawasan Geopolitik Terkini
-                    </h3>
+                  {/* Folder 2: SWOT (Pastel Royal Purple) */}
+                  <div className="flex flex-col items-center">
+                    <FolderFloat
+                      href="#swot"
+                      label="SWOT"
+                      sublabel="4 Pilar Analisis"
+                      items={['Strengths (Kekuatan)', 'Weaknesses (Kelemahan)', 'Opportunities (Peluang)', 'Threats (Ancaman)']}
+                      folderColor="#9333ea"
+                      frontColor="#a855f7"
+                      paperColor="#f3e8ff"
+                      itemColor="#ffffff"
+                      itemTextColor="#581c87"
+                      labelColor="#ffffff"
+                      width={144}
+                      height={104}
+                      radius={12}
+                      spread={98}
+                      lift={22}
+                      trigger="hover"
+                      physics={true}
+                    />
                   </div>
 
-                  {/* Bubble 3: Indikator Kunci Pembangunan */}
-                  <div className="group relative rounded-2xl bg-purple-100/90 p-3 shadow-sm border border-purple-200/90 transition-all hover:-translate-y-1 hover:bg-purple-200/80 hover:shadow-md">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-purple-700 text-[10px] font-black text-white">
-                        O
-                      </span>
-                      <span className="text-[10px] font-black uppercase tracking-wider text-purple-700">Indikator</span>
-                    </div>
-                    <h3 className="text-xs font-bold text-purple-950 leading-tight">
-                      Indikator Kunci Pembangunan
-                    </h3>
+                  {/* Folder 3: Kesimpulan (Pastel Warm Amber/Coral) */}
+                  <div className="flex flex-col items-center">
+                    <FolderFloat
+                      href="#kesimpulan"
+                      label="Kesimpulan"
+                      sublabel="Rangkuman & Solusi"
+                      items={['Sintesis Kebijakan', 'Rekomendasi Strategis', 'Aksi Pemuda 2045']}
+                      folderColor="#ea580c"
+                      frontColor="#f97316"
+                      paperColor="#ffedd5"
+                      itemColor="#ffffff"
+                      itemTextColor="#7c2d12"
+                      labelColor="#ffffff"
+                      width={144}
+                      height={104}
+                      radius={12}
+                      spread={88}
+                      lift={22}
+                      trigger="hover"
+                      physics={true}
+                    />
                   </div>
 
-                  {/* Bubble 4: Proyeksi Pertumbuhan Masa Depan */}
-                  <div className="group relative rounded-2xl bg-purple-100/90 p-3 shadow-sm border border-purple-200/90 transition-all hover:-translate-y-1 hover:bg-purple-200/80 hover:shadow-md">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-rose-600 text-[10px] font-black text-white">
-                        T
-                      </span>
-                      <span className="text-[10px] font-black uppercase tracking-wider text-rose-700">Proyeksi</span>
-                    </div>
-                    <h3 className="text-xs font-bold text-purple-950 leading-tight">
-                      Proyeksi Pertumbuhan Masa Depan
-                    </h3>
+                  {/* Folder 4: Quiz (Pastel Emerald/Mint) */}
+                  <div className="flex flex-col items-center">
+                    <FolderFloat
+                      href="#quiz"
+                      label="Quiz"
+                      sublabel="Uji Pemahaman"
+                      items={['Mulai Uji Materi', 'Evaluasi Pemahaman', 'Skor & Prestasi']}
+                      folderColor="#059669"
+                      frontColor="#10b981"
+                      paperColor="#d1fae5"
+                      itemColor="#ffffff"
+                      itemTextColor="#064e3b"
+                      labelColor="#ffffff"
+                      width={144}
+                      height={104}
+                      radius={12}
+                      spread={88}
+                      lift={22}
+                      trigger="hover"
+                      physics={true}
+                    />
                   </div>
 
                 </div>

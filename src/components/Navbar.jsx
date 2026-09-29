@@ -50,12 +50,6 @@ export default function Navbar() {
               <span className="inline-block h-2 w-2 rounded-full bg-purple-500 animate-pulse"></span>
               Kelompok 1
             </span>
-            <a
-              href="#swot"
-              className="inline-flex items-center justify-center rounded-full bg-[#84cc16] px-4 py-1.5 text-xs font-bold text-slate-900 shadow-sm transition-all hover:bg-[#65a30d] hover:shadow-md active:scale-95"
-            >
-              Explore -&gt;
-            </a>
           </div>
 
           {/* Mobile hamburger button */}
