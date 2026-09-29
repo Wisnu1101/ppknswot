@@ -1,14 +1,80 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import TechText from './TechText'
 import FolderFloat from './FolderFloat'
 
 export default function Hero() {
+  const heroRef = useRef(null)
   const [activeScreenTab, setActiveScreenTab] = useState('Beranda')
 
   const screenNavLinks = ['Beranda', 'Pendahuluan', 'SWOT', 'Kesimpulan', 'Quiz', 'About Us']
 
+  useEffect(() => {
+    const hero = heroRef.current
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    if (!hero || reduceMotion.matches) return
+
+    const target = { x: 0, y: 0 }
+    const current = { x: 0, y: 0 }
+    let frameId = 0
+
+    const animate = () => {
+      current.x += (target.x - current.x) * 0.14
+      current.y += (target.y - current.y) * 0.14
+
+      hero.querySelectorAll('[data-parallax-depth]').forEach((element) => {
+        const depth = Number(element.dataset.parallaxDepth)
+        const offsetX = -current.x * depth * 36
+        const offsetY = -current.y * depth * 32
+        const angle = Math.hypot(current.x, current.y) * depth * 11.5
+        const axisX = angle ? -current.y / Math.hypot(current.x, current.y) : 0
+        const axisY = angle ? current.x / Math.hypot(current.x, current.y) : 1
+
+        element.style.setProperty('--parallax-x', `${offsetX}px`)
+        element.style.setProperty('--parallax-y', `${offsetY}px`)
+        element.style.setProperty('--parallax-axis-x', axisX)
+        element.style.setProperty('--parallax-axis-y', axisY)
+        element.style.setProperty('--parallax-angle', `${angle}deg`)
+      })
+
+      hero.style.backgroundPosition = `${current.x * 12}px ${current.y * 12}px, ${current.x * 12}px ${current.y * 12}px`
+
+      if (Math.abs(target.x - current.x) > 0.001 || Math.abs(target.y - current.y) > 0.001) {
+        frameId = requestAnimationFrame(animate)
+      } else {
+        frameId = 0
+      }
+    }
+
+    const scheduleAnimation = () => {
+      if (!frameId) frameId = requestAnimationFrame(animate)
+    }
+
+    const handlePointerMove = (event) => {
+      const bounds = hero.getBoundingClientRect()
+      target.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1
+      target.y = ((event.clientY - bounds.top) / bounds.height) * 2 - 1
+      scheduleAnimation()
+    }
+
+    const handlePointerLeave = () => {
+      target.x = 0
+      target.y = 0
+      scheduleAnimation()
+    }
+
+    hero.addEventListener('pointermove', handlePointerMove, { passive: true })
+    hero.addEventListener('pointerleave', handlePointerLeave, { passive: true })
+
+    return () => {
+      hero.removeEventListener('pointermove', handlePointerMove)
+      hero.removeEventListener('pointerleave', handlePointerLeave)
+      cancelAnimationFrame(frameId)
+    }
+  }, [])
+
   return (
     <section
+      ref={heroRef}
       id="hero"
       className="relative min-h-screen bg-grid-paper pt-24 pb-20 overflow-hidden flex flex-col items-center justify-center selection:bg-purple-200 selection:text-purple-900"
     >
@@ -42,14 +108,14 @@ export default function Hero() {
            ----------------------------------------------------------------------- */}
 
         {/* 1. Pastel Periwinkle 4-Point Star Sparkle (Top-Left) */}
-        <div className="pointer-events-none absolute -top-8 left-4 sm:left-12 z-20 animate-float-1">
+        <div data-parallax-depth="1.1" className="pointer-events-none absolute -top-8 left-4 sm:left-12 z-20 animate-float-1">
           <svg className="h-10 w-10 sm:h-14 sm:w-14 text-[#c4b5fd] drop-shadow-xs" viewBox="0 0 48 48" fill="currentColor">
             <path d="M24 2C24 14 14 24 2 24C14 24 24 34 24 46C24 34 34 24 46 24C34 24 24 14 24 2Z" />
           </svg>
         </div>
 
         {/* 2. Pastel Lime-Green 6-Petal Flower (Mid-Left) */}
-        <div className="pointer-events-none absolute top-1/4 -left-6 sm:-left-12 z-20 animate-float-2">
+        <div data-parallax-depth="0.9" className="pointer-events-none absolute top-1/4 -left-6 sm:-left-12 z-20 animate-float-2">
           <svg className="h-16 w-16 sm:h-22 sm:w-22 drop-shadow-xs transform -rotate-12" viewBox="0 0 100 100" fill="none">
             {/* 6 Rounded Flower Petals */}
             <circle cx="50" cy="22" r="16" fill="#bef264" />
@@ -65,7 +131,7 @@ export default function Hero() {
         </div>
 
         {/* 3. Cute Stylized Pastel 3D Tower / Lighthouse (Near Yellow Sparkle) */}
-        <div className="pointer-events-none absolute top-1/3 mt-12 right-4 sm:right-8 z-20 animate-float-3">
+        <div data-parallax-depth="0.8" className="pointer-events-none absolute top-1/3 mt-12 right-4 sm:right-8 z-20 animate-float-3">
           <svg className="h-16 w-16 sm:h-20 sm:w-20 drop-shadow-md" viewBox="0 0 80 80" fill="none">
             {/* Soft Purple Round Base Platform */}
             <ellipse cx="40" cy="66" rx="28" ry="10" fill="#c7d2fe" />
@@ -84,7 +150,7 @@ export default function Hero() {
         </div>
 
         {/* 4. Pastel Sunburst / Sparkle Lines Doodle (Top-Right) */}
-        <div className="pointer-events-none absolute -top-8 right-6 sm:right-16 z-20 animate-icon-slow">
+        <div data-parallax-depth="0.7" className="pointer-events-none absolute -top-8 right-6 sm:right-16 z-20 animate-icon-slow">
           <svg className="h-12 w-12 sm:h-16 sm:w-16 text-[#c4b5fd]" viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
             <line x1="32" y1="6" x2="32" y2="18" />
             <line x1="32" y1="46" x2="32" y2="58" />
@@ -98,7 +164,7 @@ export default function Hero() {
         </div>
 
         {/* Element 5 replacement: Pastel Plus / Cross Doodle (Bottom Left of Laptop) */}
-        <div className="pointer-events-none absolute bottom-20 -left-2 sm:left-6 z-20 animate-float-2 opacity-90">
+        <div data-parallax-depth="1" className="pointer-events-none absolute bottom-20 -left-2 sm:left-6 z-20 animate-float-2 opacity-90">
           <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
             <rect x="20" y="4" width="12" height="44" rx="6" fill="#bef264" />
             <rect x="4" y="20" width="44" height="12" rx="6" fill="#bef264" />
@@ -106,7 +172,7 @@ export default function Hero() {
         </div>
 
         {/* Element 6 replacement: Cute Pastel Rocket (Bottom Right of Laptop) */}
-        <div className="pointer-events-none absolute bottom-16 -right-2 sm:right-6 z-20 animate-float-3 opacity-90">
+        <div data-parallax-depth="1" className="pointer-events-none absolute bottom-16 -right-2 sm:right-6 z-20 animate-float-3 opacity-90">
           <svg width="52" height="62" viewBox="0 0 52 62" fill="none">
             {/* Rocket body */}
             <rect x="16" y="18" width="20" height="28" rx="6" fill="#f87171" />
@@ -125,7 +191,7 @@ export default function Hero() {
 
         {/* Small Pastel Doodles (replacing old star/rocket/flower icons) */}
         {/* Doodle Arrow */}
-        <div className="pointer-events-none absolute top-10 left-1/4 animate-icon-drift opacity-85">
+        <div data-parallax-depth="0.65" className="pointer-events-none absolute top-10 left-1/4 animate-icon-drift opacity-85">
           <svg width="44" height="36" viewBox="0 0 44 36" fill="none">
             <path d="M4 28 Q14 4 36 12" stroke="#a78bfa" strokeWidth="3" strokeDasharray="5 4" strokeLinecap="round" fill="none" />
             <path d="M28 6 L38 14 L26 16" stroke="#a78bfa" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
@@ -133,7 +199,7 @@ export default function Hero() {
         </div>
 
         {/* Pink 8-petal flower */}
-        <div className="pointer-events-none absolute top-6 right-1/4 animate-icon-slow opacity-85">
+        <div data-parallax-depth="0.55" className="pointer-events-none absolute top-6 right-1/4 animate-icon-slow opacity-85">
           <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
             <ellipse cx="19" cy="10" rx="4.5" ry="7" fill="#fda4af" />
             <ellipse cx="19" cy="28" rx="4.5" ry="7" fill="#fda4af" />
@@ -148,7 +214,7 @@ export default function Hero() {
         </div>
 
         {/* Soft cloud doodle */}
-        <div className="pointer-events-none absolute bottom-10 left-1/4 animate-icon-drift opacity-75">
+        <div data-parallax-depth="0.45" className="pointer-events-none absolute bottom-10 left-1/4 animate-icon-drift opacity-75">
           <svg width="52" height="34" viewBox="0 0 52 34" fill="none">
             <circle cx="18" cy="22" r="10" fill="#e0e7ff" />
             <circle cx="32" cy="22" r="10" fill="#e0e7ff" />
@@ -158,14 +224,14 @@ export default function Hero() {
         </div>
 
         {/* Yellow diamond sparkle */}
-        <div className="pointer-events-none absolute top-1/3 right-6 animate-icon-slow opacity-80">
+        <div data-parallax-depth="0.75" className="pointer-events-none absolute top-1/3 right-6 animate-icon-slow opacity-80">
           <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
             <path d="M16 2 L18 14 L30 16 L18 18 L16 30 L14 18 L2 16 L14 14 Z" fill="#fde047" />
           </svg>
         </div>
 
         {/* Cyan wavy loop doodle */}
-        <div className="pointer-events-none absolute bottom-14 right-1/4 animate-icon-drift opacity-75">
+        <div data-parallax-depth="0.5" className="pointer-events-none absolute bottom-14 right-1/4 animate-icon-drift opacity-75">
           <svg width="46" height="28" viewBox="0 0 46 28" fill="none">
             <path d="M4 20 Q10 4 18 14 Q26 24 34 12 Q40 4 44 14" stroke="#67e8f9" strokeWidth="3" strokeLinecap="round" fill="none" />
           </svg>
@@ -174,7 +240,7 @@ export default function Hero() {
         {/* -----------------------------------------------------------------------
             THE CENTERPIECE: FLOATING ANTIGRAVITY LAPTOP
            ----------------------------------------------------------------------- */}
-        <div className="relative mx-auto max-w-4xl animate-antigravity pt-4">
+        <div data-parallax-depth="0.38" className="relative mx-auto max-w-4xl animate-antigravity pt-4">
           
           {/* Antigravity Glow & Shadow underneath */}
           <div className="absolute -bottom-8 left-1/2 h-10 w-3/4 -translate-x-1/2 rounded-full bg-slate-900/15 blur-2xl"></div>
@@ -244,7 +310,7 @@ export default function Hero() {
               >
                 
                 {/* Decorative Doodles on Screen (like arrows & heart in image_0.png) */}
-                <div className="pointer-events-none absolute top-6 left-8 text-purple-400 hidden sm:block">
+                <div data-parallax-depth="0.35" className="pointer-events-none absolute top-6 left-8 text-purple-400 hidden sm:block">
                   {/* Curved hand-drawn style arrow */}
                   <svg className="h-12 w-12 transform -rotate-12" fill="none" viewBox="0 0 48 48">
                     <path
@@ -257,7 +323,7 @@ export default function Hero() {
                   </svg>
                 </div>
 
-                <div className="pointer-events-none absolute top-10 right-10 text-rose-400 hidden sm:block">
+                <div data-parallax-depth="0.35" className="pointer-events-none absolute top-10 right-10 text-rose-400 hidden sm:block">
                   {/* Cute doodle heart */}
                   <svg className="h-7 w-7 transform rotate-12" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
@@ -298,7 +364,7 @@ export default function Hero() {
                 <div className="mt-14 sm:mt-16 pt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-4 lg:gap-3 justify-items-center items-end">
                   
                   {/* Folder 1: Pendahuluan (Pastel Indigo/Sky) */}
-                  <div className="flex flex-col items-center">
+                  <div data-parallax-depth="0.25" className="flex flex-col items-center">
                     <FolderFloat
                       href="#pendahuluan"
                       label="Pendahuluan"
@@ -321,7 +387,7 @@ export default function Hero() {
                   </div>
 
                   {/* Folder 2: SWOT (Pastel Royal Purple) */}
-                  <div className="flex flex-col items-center">
+                  <div data-parallax-depth="0.25" className="flex flex-col items-center">
                     <FolderFloat
                       href="#swot"
                       label="SWOT"
@@ -344,7 +410,7 @@ export default function Hero() {
                   </div>
 
                   {/* Folder 3: Kesimpulan (Pastel Warm Amber/Coral) */}
-                  <div className="flex flex-col items-center">
+                  <div data-parallax-depth="0.25" className="flex flex-col items-center">
                     <FolderFloat
                       href="#kesimpulan"
                       label="Kesimpulan"
@@ -367,7 +433,7 @@ export default function Hero() {
                   </div>
 
                   {/* Folder 4: Quiz (Pastel Emerald/Mint) */}
-                  <div className="flex flex-col items-center">
+                  <div data-parallax-depth="0.25" className="flex flex-col items-center">
                     <FolderFloat
                       href="#quiz"
                       label="Quiz"
