@@ -286,6 +286,29 @@ export default function Hero() {
                   </div>
                 </div>
 
+                {/* Purple Pill Shape Badge - "Indonesia" */}
+                <div className="flex justify-center -mt-3 sm:-mt-4 mb-4">
+                  <div
+                    className="relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 px-7 sm:px-9 py-2.5 sm:py-3 shadow-lg shadow-purple-500/30 transform rotate-[-2deg] hover:rotate-0 hover:scale-105 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 cursor-default group"
+                  >
+                    {/* Subtle inner glow */}
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-white/10 via-transparent to-white/5 pointer-events-none" />
+                    
+                    {/* Flag emoji */}
+                    <span className="text-base sm:text-lg drop-shadow-sm">🇮🇩</span>
+                    
+                    {/* Text */}
+                    <span className="relative text-sm sm:text-base md:text-lg font-extrabold text-white tracking-wide italic drop-shadow-sm">
+                      Indonesia
+                    </span>
+
+                    {/* Sparkle decoration */}
+                    <svg className="absolute -top-2 -right-2 h-5 w-5 text-yellow-300 opacity-80 group-hover:opacity-100 group-hover:scale-125 transition-all duration-300" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2L13.5 9.5L21 11L13.5 12.5L12 20L10.5 12.5L3 11L10.5 9.5Z" />
+                    </svg>
+                  </div>
+                </div>
+
                 {/* SUBTITLE */}
                 <p className="mx-auto max-w-xl text-xs sm:text-sm md:text-base font-semibold text-slate-600 sm:font-medium">
                   Peta Kekuatan, Kelemahan, Peluang, dan Ancaman Indonesia.
