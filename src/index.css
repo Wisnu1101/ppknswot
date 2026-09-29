@@ -1,0 +1,115 @@
+@import 'tailwindcss';
+
+/* Base style global */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-[#fbf9ed] text-slate-800 antialiased;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Paper Grid Background matching image_0.png */
+.bg-grid-paper {
+  background-color: #fbf9ee;
+  background-image: 
+    linear-gradient(to right, rgba(206, 219, 133, 0.45) 1.5px, transparent 1.5px),
+    linear-gradient(to bottom, rgba(206, 219, 133, 0.45) 1.5px, transparent 1.5px);
+  background-size: 32px 32px;
+}
+
+/* Sub-grid for ultra crisp notebook paper texture */
+.bg-grid-paper-fine {
+  background-color: #faf7e6;
+  background-image: 
+    linear-gradient(to right, rgba(206, 219, 133, 0.4) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(206, 219, 133, 0.4) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Floating Animations for Antigravity Theme */
+@keyframes antigravity-levitate {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(0.8deg);
+  }
+}
+
+@keyframes float-badge-1 {
+  0%, 100% {
+    transform: translateY(0px) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+
+@keyframes float-badge-2 {
+  0%, 100% {
+    transform: translateY(0px) rotate(2deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(-2deg);
+  }
+}
+
+@keyframes float-badge-3 {
+  0%, 100% {
+    transform: translateY(0px) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+@keyframes float-icon-drift {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-12px) scale(1.05);
+  }
+}
+
+@keyframes float-icon-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-18px) rotate(4deg);
+  }
+}
+
+.animate-antigravity {
+  animation: antigravity-levitate 6s ease-in-out infinite;
+}
+
+.animate-float-1 {
+  animation: float-badge-1 4.5s ease-in-out infinite;
+}
+
+.animate-float-2 {
+  animation: float-badge-2 5.5s ease-in-out infinite;
+}
+
+.animate-float-3 {
+  animation: float-badge-3 6.5s ease-in-out infinite;
+}
+
+.animate-icon-drift {
+  animation: float-icon-drift 5s ease-in-out infinite;
+}
+
+.animate-icon-slow {
+  animation: float-icon-slow 7s ease-in-out infinite;
+}
+
+/* Custom dashed pill borders matching image_0.png */
+.pill-badge-dashed {
+  border-style: dashed;
+  border-width: 2px;
+}
