@@ -29,13 +29,6 @@ body {
   background-size: 24px 24px;
 }
 
-[data-parallax-depth] {
-  translate: var(--parallax-x, 0px) var(--parallax-y, 0px);
-  rotate: var(--parallax-axis-x, 0) var(--parallax-axis-y, 1) 0 var(--parallax-angle, 0deg);
-  transform-style: preserve-3d;
-  will-change: translate, rotate;
-}
-
 /* Floating Animations for Antigravity Theme */
 @keyframes antigravity-levitate {
   0%, 100% {
