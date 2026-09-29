@@ -1,21 +1,55 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import TechText from './TechText'
 import FolderFloat from './FolderFloat'
 
 export default function Hero() {
+  const heroRef = useRef(null)
   const [activeScreenTab, setActiveScreenTab] = useState('Beranda')
 
   const screenNavLinks = ['Beranda', 'Pendahuluan', 'SWOT', 'Kesimpulan', 'Quiz', 'About Us']
 
+  useEffect(() => {
+    const hero = heroRef.current
+    if (!hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const animations = Array.from(hero.querySelectorAll('[data-hero-enter]')).map((element, index) => {
+      const fromLeft = element.dataset.heroEnter === 'left'
+      const opacity = getComputedStyle(element).opacity
+      const animation = element.animate(
+        [
+          {
+            translate: fromLeft ? '-96px 0px' : '0px -36px',
+            opacity: 0,
+          },
+          {
+            translate: '0px 0px',
+            opacity,
+          },
+        ],
+        {
+          duration: fromLeft ? 1300 : 1100,
+          delay: fromLeft ? 0 : Math.min(index * 80, 640),
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'both',
+        }
+      )
+      animation.onfinish = () => animation.cancel()
+      return animation
+    })
+
+    return () => animations.forEach((animation) => animation.cancel())
+  }, [])
+
   return (
     <section
+      ref={heroRef}
       id="hero"
       className="relative min-h-screen bg-grid-paper pt-24 pb-20 overflow-hidden flex flex-col items-center justify-center selection:bg-purple-200 selection:text-purple-900"
     >
       {/* =========================================================================
           TOP BADGES (Inspired by 'Case', 'Design', 'Multi-page website' in image_0.png)
          ========================================================================= */}
-      <div className="z-10 mb-8 flex flex-wrap items-center justify-center gap-3 px-4">
+      <div data-hero-enter="top" className="z-10 mb-8 flex flex-wrap items-center justify-center gap-3 px-4" style={{ zoom: 0.8 }}>
         {/* Badge 1: Case (Purple with dashed border) */}
         <div className="pill-badge-dashed border-purple-400 bg-purple-600/90 text-white shadow-sm px-6 py-2 rounded-full font-bold text-sm tracking-wide transform -rotate-1 hover:rotate-0 transition-transform">
           PPKN Case
@@ -42,14 +76,14 @@ export default function Hero() {
            ----------------------------------------------------------------------- */}
 
         {/* 1. Pastel Periwinkle 4-Point Star Sparkle (Top-Left) */}
-        <div className="pointer-events-none absolute -top-8 left-4 sm:left-12 z-20 animate-float-1">
+        <div data-hero-enter="top" className="pointer-events-none absolute -top-8 left-4 sm:left-12 z-20 animate-float-1">
           <svg className="h-10 w-10 sm:h-14 sm:w-14 text-[#c4b5fd] drop-shadow-xs" viewBox="0 0 48 48" fill="currentColor">
             <path d="M24 2C24 14 14 24 2 24C14 24 24 34 24 46C24 34 34 24 46 24C34 24 24 14 24 2Z" />
           </svg>
         </div>
 
         {/* 2. Pastel Lime-Green 6-Petal Flower (Mid-Left) */}
-        <div className="pointer-events-none absolute top-1/4 -left-6 sm:-left-12 z-20 animate-float-2">
+        <div data-hero-enter="top" className="pointer-events-none absolute top-1/4 -left-6 sm:-left-12 z-20 animate-float-2">
           <svg className="h-16 w-16 sm:h-22 sm:w-22 drop-shadow-xs transform -rotate-12" viewBox="0 0 100 100" fill="none">
             {/* 6 Rounded Flower Petals */}
             <circle cx="50" cy="22" r="16" fill="#bef264" />
@@ -65,7 +99,7 @@ export default function Hero() {
         </div>
 
         {/* 3. Cute Stylized Pastel 3D Tower / Lighthouse (Near Yellow Sparkle) */}
-        <div className="pointer-events-none absolute top-1/3 mt-12 right-4 sm:right-8 z-20 animate-float-3">
+        <div data-hero-enter="top" className="pointer-events-none absolute top-1/3 mt-12 right-4 sm:right-8 z-20 animate-float-3">
           <svg className="h-16 w-16 sm:h-20 sm:w-20 drop-shadow-md" viewBox="0 0 80 80" fill="none">
             {/* Soft Purple Round Base Platform */}
             <ellipse cx="40" cy="66" rx="28" ry="10" fill="#c7d2fe" />
@@ -84,7 +118,7 @@ export default function Hero() {
         </div>
 
         {/* 4. Pastel Sunburst / Sparkle Lines Doodle (Top-Right) */}
-        <div className="pointer-events-none absolute -top-8 right-6 sm:right-16 z-20 animate-icon-slow">
+        <div data-hero-enter="top" className="pointer-events-none absolute -top-8 right-6 sm:right-16 z-20 animate-icon-slow">
           <svg className="h-12 w-12 sm:h-16 sm:w-16 text-[#c4b5fd]" viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
             <line x1="32" y1="6" x2="32" y2="18" />
             <line x1="32" y1="46" x2="32" y2="58" />
@@ -98,7 +132,7 @@ export default function Hero() {
         </div>
 
         {/* Element 5 replacement: Pastel Plus / Cross Doodle (Bottom Left of Laptop) */}
-        <div className="pointer-events-none absolute bottom-20 -left-2 sm:left-6 z-20 animate-float-2 opacity-90">
+        <div data-hero-enter="top" className="pointer-events-none absolute bottom-20 -left-2 sm:left-6 z-20 animate-float-2 opacity-90">
           <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
             <rect x="20" y="4" width="12" height="44" rx="6" fill="#bef264" />
             <rect x="4" y="20" width="44" height="12" rx="6" fill="#bef264" />
@@ -106,7 +140,7 @@ export default function Hero() {
         </div>
 
         {/* Element 6 replacement: Cute Pastel Rocket (Bottom Right of Laptop) */}
-        <div className="pointer-events-none absolute bottom-16 -right-2 sm:right-6 z-20 animate-float-3 opacity-90">
+        <div data-hero-enter="top" className="pointer-events-none absolute bottom-16 -right-2 sm:right-6 z-20 animate-float-3 opacity-90">
           <svg width="52" height="62" viewBox="0 0 52 62" fill="none">
             {/* Rocket body */}
             <rect x="16" y="18" width="20" height="28" rx="6" fill="#f87171" />
@@ -125,7 +159,7 @@ export default function Hero() {
 
         {/* Small Pastel Doodles (replacing old star/rocket/flower icons) */}
         {/* Doodle Arrow */}
-        <div className="pointer-events-none absolute top-10 left-1/4 animate-icon-drift opacity-85">
+        <div data-hero-enter="top" className="pointer-events-none absolute top-10 left-1/4 animate-icon-drift opacity-85">
           <svg width="44" height="36" viewBox="0 0 44 36" fill="none">
             <path d="M4 28 Q14 4 36 12" stroke="#a78bfa" strokeWidth="3" strokeDasharray="5 4" strokeLinecap="round" fill="none" />
             <path d="M28 6 L38 14 L26 16" stroke="#a78bfa" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
@@ -133,7 +167,7 @@ export default function Hero() {
         </div>
 
         {/* Pink 8-petal flower */}
-        <div className="pointer-events-none absolute top-6 right-1/4 animate-icon-slow opacity-85">
+        <div data-hero-enter="top" className="pointer-events-none absolute top-6 right-1/4 animate-icon-slow opacity-85">
           <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
             <ellipse cx="19" cy="10" rx="4.5" ry="7" fill="#fda4af" />
             <ellipse cx="19" cy="28" rx="4.5" ry="7" fill="#fda4af" />
@@ -148,7 +182,7 @@ export default function Hero() {
         </div>
 
         {/* Soft cloud doodle */}
-        <div className="pointer-events-none absolute bottom-10 left-1/4 animate-icon-drift opacity-75">
+        <div data-hero-enter="top" className="pointer-events-none absolute bottom-10 left-1/4 animate-icon-drift opacity-75">
           <svg width="52" height="34" viewBox="0 0 52 34" fill="none">
             <circle cx="18" cy="22" r="10" fill="#e0e7ff" />
             <circle cx="32" cy="22" r="10" fill="#e0e7ff" />
@@ -158,14 +192,14 @@ export default function Hero() {
         </div>
 
         {/* Yellow diamond sparkle */}
-        <div className="pointer-events-none absolute top-1/3 right-6 animate-icon-slow opacity-80">
+        <div data-hero-enter="top" className="pointer-events-none absolute top-1/3 right-6 animate-icon-slow opacity-80">
           <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
             <path d="M16 2 L18 14 L30 16 L18 18 L16 30 L14 18 L2 16 L14 14 Z" fill="#fde047" />
           </svg>
         </div>
 
         {/* Cyan wavy loop doodle */}
-        <div className="pointer-events-none absolute bottom-14 right-1/4 animate-icon-drift opacity-75">
+        <div data-hero-enter="top" className="pointer-events-none absolute bottom-14 right-1/4 animate-icon-drift opacity-75">
           <svg width="46" height="28" viewBox="0 0 46 28" fill="none">
             <path d="M4 20 Q10 4 18 14 Q26 24 34 12 Q40 4 44 14" stroke="#67e8f9" strokeWidth="3" strokeLinecap="round" fill="none" />
           </svg>
@@ -174,7 +208,7 @@ export default function Hero() {
         {/* -----------------------------------------------------------------------
             THE CENTERPIECE: FLOATING ANTIGRAVITY LAPTOP
            ----------------------------------------------------------------------- */}
-        <div className="relative mx-auto max-w-4xl animate-antigravity pt-4">
+        <div data-hero-enter="left" className="relative mx-auto max-w-4xl animate-antigravity pt-4" style={{ zoom: 0.8 }}>
           
           {/* Antigravity Glow & Shadow underneath */}
           <div className="absolute -bottom-8 left-1/2 h-10 w-3/4 -translate-x-1/2 rounded-full bg-slate-900/15 blur-2xl"></div>
@@ -282,30 +316,10 @@ export default function Hero() {
                       draggable={true}
                       sweep={true}
                       speed={1}
+                      style={{
+                        filter: 'drop-shadow(0 0 1.5px rgba(196, 181, 253, 0.95)) drop-shadow(0 5px 7px rgba(124, 58, 237, 0.3))',
+                      }}
                     />
-                  </div>
-                </div>
-
-                {/* Purple Pill Shape Badge - "Indonesia" */}
-                <div className="flex justify-center -mt-3 sm:-mt-4 mb-4">
-                  <div
-                    className="relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 px-7 sm:px-9 py-2.5 sm:py-3 shadow-lg shadow-purple-500/30 transform rotate-[-2deg] hover:rotate-0 hover:scale-105 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 cursor-default group"
-                  >
-                    {/* Subtle inner glow */}
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-white/10 via-transparent to-white/5 pointer-events-none" />
-                    
-                    {/* Flag emoji */}
-                    <span className="text-base sm:text-lg drop-shadow-sm">🇮🇩</span>
-                    
-                    {/* Text */}
-                    <span className="relative text-sm sm:text-base md:text-lg font-extrabold text-white tracking-wide italic drop-shadow-sm">
-                      Indonesia
-                    </span>
-
-                    {/* Sparkle decoration */}
-                    <svg className="absolute -top-2 -right-2 h-5 w-5 text-yellow-300 opacity-80 group-hover:opacity-100 group-hover:scale-125 transition-all duration-300" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2L13.5 9.5L21 11L13.5 12.5L12 20L10.5 12.5L3 11L10.5 9.5Z" />
-                    </svg>
                   </div>
                 </div>
 
@@ -469,7 +483,7 @@ export default function Hero() {
       {/* =========================================================================
           LOWER HIGHLIGHT BANNER (Matching the Lower Purple Section in image_0.png)
          ========================================================================= */}
-      <div className="mx-auto mt-12 w-full max-w-6xl px-4 sm:px-6 lg:px-8 z-10">
+      <div data-hero-enter="top" className="mx-auto mt-12 w-full max-w-6xl px-4 sm:px-6 lg:px-8 z-10" style={{ zoom: 0.8 }}>
         <div className="rounded-3xl bg-gradient-to-br from-[#7c3aed] via-[#6d28d9] to-[#5b21b6] p-6 sm:p-8 text-white shadow-2xl border border-purple-400/40">
           
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-purple-400/30">

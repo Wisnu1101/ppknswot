@@ -186,14 +186,43 @@ export default function Introduction() {
     <section
       id="pendahuluan"
       ref={sectionRef}
-      className="scroll-mt-16 relative overflow-hidden bg-grid-paper"
+      className="scroll-mt-16 relative overflow-hidden bg-[#fbf9ed] shadow-[0_12px_32px_rgba(15,23,42,0.12)]"
     >
-      {/* Decorative gradient blobs */}
-      <div className="absolute top-0 left-0 w-80 h-80 bg-purple-200/20 rounded-full blur-3xl -translate-x-1/3 -translate-y-1/3 pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-lime-200/20 rounded-full blur-3xl translate-x-1/4 translate-y-1/4 pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 w-72 h-72 bg-amber-200/15 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-2 z-0 hidden w-14 xl:block">
+        <svg className="absolute top-[9%] h-[430px] w-full overflow-visible opacity-75" viewBox="0 0 56 430" fill="none">
+          <path d="M30 0C54 42 8 75 30 116S51 190 28 230S9 300 31 344S46 395 26 430" stroke="#c4b5fd" strokeWidth="2" strokeDasharray="3 8" strokeLinecap="round" />
+          <g fill="#bef264" stroke="#a3e635" strokeWidth="1">
+            <circle cx="28" cy="124" r="7" />
+            <circle cx="40" cy="131" r="7" />
+            <circle cx="40" cy="145" r="7" />
+            <circle cx="28" cy="152" r="7" />
+            <circle cx="16" cy="145" r="7" />
+            <circle cx="16" cy="131" r="7" />
+          </g>
+          <circle cx="28" cy="138" r="5" fill="#fde047" />
+          <path d="M35 262L38 273L49 276L38 279L35 290L32 279L21 276L32 273Z" fill="#fde047" />
+          <path d="M22 348L24 355L31 357L24 359L22 366L20 359L13 357L20 355Z" fill="#c4b5fd" />
+        </svg>
+      </div>
 
-      <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-6 lg:px-8 pt-10 pb-20 sm:pt-12 sm:pb-24 lg:pt-14 lg:pb-28">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-2 z-0 hidden w-14 xl:block">
+        <svg className="absolute top-[13%] h-[430px] w-full overflow-visible opacity-75" viewBox="0 0 56 430" fill="none">
+          <path d="M26 0C4 43 49 78 27 120S5 192 29 234S50 302 27 346S11 396 32 430" stroke="#bef264" strokeWidth="2" strokeDasharray="3 8" strokeLinecap="round" />
+          <path d="M26 57L29 68L40 71L29 74L26 85L23 74L12 71L23 68Z" fill="#c4b5fd" />
+          <g fill="#fda4af" stroke="#fb7185" strokeWidth="1">
+            <circle cx="28" cy="291" r="7" />
+            <circle cx="40" cy="298" r="7" />
+            <circle cx="40" cy="312" r="7" />
+            <circle cx="28" cy="319" r="7" />
+            <circle cx="16" cy="312" r="7" />
+            <circle cx="16" cy="298" r="7" />
+          </g>
+          <circle cx="28" cy="305" r="5" fill="#fde047" />
+          <path d="M35 365L37 372L44 374L37 376L35 383L33 376L26 374L33 372Z" fill="#c4b5fd" />
+        </svg>
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-6 lg:px-8 pt-10 pb-20 sm:pt-12 sm:pb-24 lg:pt-14 lg:pb-28" style={{ zoom: 0.8 }}>
         {/* Section Header */}
         <div
           className={`mb-14 sm:mb-16 transition-all duration-700 ease-out ${
