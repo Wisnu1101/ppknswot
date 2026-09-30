@@ -4,9 +4,29 @@ import FolderFloat from './FolderFloat'
 
 export default function Hero() {
   const heroRef = useRef(null)
+  const [heroVisible, setHeroVisible] = useState(false)
   const [activeScreenTab, setActiveScreenTab] = useState('Beranda')
 
   const screenNavLinks = ['Beranda', 'Pendahuluan', 'SWOT', 'Kesimpulan', 'Quiz', 'About Us']
+
+  useEffect(() => {
+    const hero = heroRef.current
+    if (!hero) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setHeroVisible(entry.isIntersecting)
+      },
+      {
+        threshold: 0.15,
+        rootMargin: '0px 0px -5% 0px',
+      }
+    )
+
+    observer.observe(hero)
+
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     const hero = heroRef.current
@@ -38,13 +58,13 @@ export default function Hero() {
     })
 
     return () => animations.forEach((animation) => animation.cancel())
-  }, [])
+  }, [heroVisible])
 
   return (
     <section
       ref={heroRef}
       id="hero"
-      className="relative min-h-screen bg-grid-paper pt-24 pb-20 overflow-hidden flex flex-col items-center justify-center selection:bg-purple-200 selection:text-purple-900"
+      className={`relative min-h-screen bg-grid-paper pt-24 pb-20 overflow-hidden flex flex-col items-center justify-center selection:bg-purple-200 selection:text-purple-900 transition-all duration-700 ease-out ${heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
     >
       {/* =========================================================================
           TOP BADGES (Inspired by 'Case', 'Design', 'Multi-page website' in image_0.png)
@@ -343,11 +363,11 @@ export default function Hero() {
                       label="Pendahuluan"
                       sublabel="Latar Belakang & Urgensi"
                       items={['Latar Belakang', 'Tujuan Kajian', 'Wawasan Nusantara']}
-                      folderColor="#9333ea"
-                      frontColor="#9333ea"
-                      paperColor="#e9d5ff"
-                      itemColor="#e9d5ff"
-                      itemTextColor="#3b0764"
+                      folderColor="#7c3aed"
+                      frontColor="#8b5cf6"
+                      paperColor="#FAF8EC"
+                      itemColor="#FAF8EC"
+                      itemTextColor="#4c1d95"
                       labelColor="#ffffff"
                       width={144}
                       height={104}
@@ -366,12 +386,12 @@ export default function Hero() {
                       label="SWOT"
                       sublabel="4 Pilar Analisis"
                       items={['Strengths (Kekuatan)', 'Weaknesses (Kelemahan)', 'Opportunities (Peluang)', 'Threats (Ancaman)']}
-                      folderColor="#bef264"
+                      folderColor="#84cc16"
                       frontColor="#bef264"
-                      paperColor="#ecfccb"
-                      itemColor="#ecfccb"
-                      itemTextColor="#1a2e05"
-                      labelColor="#1a2e05"
+                      paperColor="#FAF8EC"
+                      itemColor="#FAF8EC"
+                      itemTextColor="#14532d"
+                      labelColor="#0f172a"
                       width={144}
                       height={104}
                       radius={8}
@@ -389,12 +409,12 @@ export default function Hero() {
                       label="Kesimpulan"
                       sublabel="Rangkuman & Solusi"
                       items={['Sintesis Kebijakan', 'Rekomendasi Strategis', 'Aksi Pemuda 2045']}
-                      folderColor="#fde047"
+                      folderColor="#f59e0b"
                       frontColor="#fde047"
-                      paperColor="#fef9c3"
-                      itemColor="#fef9c3"
-                      itemTextColor="#713f12"
-                      labelColor="#1c1917"
+                      paperColor="#FAF8EC"
+                      itemColor="#FAF8EC"
+                      itemTextColor="#78350f"
+                      labelColor="#0f172a"
                       width={144}
                       height={104}
                       radius={8}
@@ -412,12 +432,12 @@ export default function Hero() {
                       label="Quiz"
                       sublabel="Uji Pemahaman"
                       items={['Mulai Uji Materi', 'Evaluasi Pemahaman', 'Skor & Prestasi']}
-                      folderColor="#ff4fa3"
-                      frontColor="#ff4fa3"
-                      paperColor="#fce7f3"
-                      itemColor="#fce7f3"
-                      itemTextColor="#831843"
-                      labelColor="#1c1917"
+                      folderColor="#e11d48"
+                      frontColor="#fb7185"
+                      paperColor="#FAF8EC"
+                      itemColor="#FAF8EC"
+                      itemTextColor="#881337"
+                      labelColor="#ffffff"
                       width={144}
                       height={104}
                       radius={8}

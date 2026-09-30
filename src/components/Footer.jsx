@@ -5,10 +5,10 @@ export default function Footer() {
     <footer className="border-t-2 border-slate-900 bg-[#fbf9ed] py-12 text-slate-800">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Brand */}
+          {/* Brand with Mascot Logo */}
           <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#bef264] border-2 border-slate-900 font-black text-slate-950 text-xs shadow-[2px_2px_0px_0px_#0f172a]">
-              KB
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white border-2 border-slate-900 p-1 shadow-[2px_2px_0px_0px_#0f172a] overflow-hidden">
+              <img src="/logo.png" alt="Kilas Bangsa Mascot Logo" className="w-full h-full object-contain" />
             </span>
             <div>
               <span className="font-black text-slate-900 text-base">KILAS BANGSA</span>

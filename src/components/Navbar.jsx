@@ -53,10 +53,10 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 z-50 w-full border-b-2 border-slate-900 bg-[#fbf9ed] transition-all">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* Brand */}
+          {/* Brand with Mascot Logo */}
           <a href="#hero" className="group flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#bef264] border-2 border-slate-900 flex items-center justify-center font-black text-slate-950 text-xs shadow-[2px_2px_0px_0px_#0f172a] group-hover:translate-x-0.5 group-hover:translate-y-0.5 group-hover:shadow-none transition-all">
-              KB
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white border-2 border-slate-900 flex items-center justify-center p-0.5 shadow-[2px_2px_0px_0px_#0f172a] group-hover:translate-x-0.5 group-hover:translate-y-0.5 group-hover:shadow-none transition-all overflow-hidden">
+              <img src="/logo.png" alt="Kilas Bangsa Mascot Logo" className="w-full h-full object-contain" />
             </div>
             <div className="flex flex-col">
               <span className="font-black tracking-tight text-slate-900 text-base sm:text-lg leading-none">

@@ -802,6 +802,21 @@ export default function Quiz() {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
 
+  // Scroll-triggered visibility for entrance animation
+  const [sectionVisible, setSectionVisible] = useState(false);
+  const sectionRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setSectionVisible(entry.isIntersecting);
+      },
+      { threshold: 0.08 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   const questions = PPKN_QUESTIONS;
 
   // Calculate dynamic quiz statistics
@@ -909,14 +924,163 @@ export default function Quiz() {
   return (
     <section
       id="quiz"
-      className="scroll-mt-16 relative w-full py-20 px-4 sm:px-6 lg:px-8 bg-[#fbf9ed]"
+      ref={sectionRef}
+      className="scroll-mt-16 relative w-full py-20 px-4 sm:px-6 lg:px-8 bg-[#fbf9ed] overflow-hidden"
     >
+      {/* ----------------------------------------------------------------- */}
+      {/* LEFT DECORATIONS (Dotted curvy line + floating flowers & stars)   */}
+      {/* ----------------------------------------------------------------- */}
+      {/* Vertical dotted curvy line with flower & sparkles (matching Intro) */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-2 z-0 hidden w-14 xl:block">
+        <svg className="absolute top-[8%] h-[560px] w-full overflow-visible opacity-80" viewBox="0 0 56 560" fill="none">
+          <path d="M30 0C54 55 8 98 30 150S51 245 28 300S9 390 31 450S46 515 26 560" stroke="#c4b5fd" strokeWidth="2.5" strokeDasharray="4 8" strokeLinecap="round" />
+          {/* Flower on curvy line */}
+          <g fill="#bef264" stroke="#a3e635" strokeWidth="1">
+            <circle cx="28" cy="150" r="7" />
+            <circle cx="40" cy="157" r="7" />
+            <circle cx="40" cy="171" r="7" />
+            <circle cx="28" cy="178" r="7" />
+            <circle cx="16" cy="171" r="7" />
+            <circle cx="16" cy="157" r="7" />
+          </g>
+          <circle cx="28" cy="164" r="5" fill="#fde047" />
+          {/* Star sparkles along line */}
+          <path d="M35 320L38 331L49 334L38 337L35 348L32 337L21 334L32 331Z" fill="#fde047" />
+          <path d="M22 450L24 457L31 459L24 461L22 468L20 461L13 459L20 457Z" fill="#fda4af" />
+        </svg>
+      </div>
+
+      {/* Floating flower - Top Left */}
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute top-12 left-4 sm:left-8 lg:left-14 z-0 animate-icon-slow hidden sm:block transition-all duration-700 ease-out ${
+          sectionVisible ? 'opacity-90 translate-x-0' : 'opacity-0 -translate-x-10'
+        }`}
+        style={{ transitionDelay: sectionVisible ? '150ms' : '0ms' }}
+      >
+        <svg width="42" height="42" viewBox="0 0 38 38" fill="none" className="drop-shadow-sm">
+          <ellipse cx="19" cy="10" rx="4.5" ry="7" fill="#fda4af" />
+          <ellipse cx="19" cy="28" rx="4.5" ry="7" fill="#fda4af" />
+          <ellipse cx="10" cy="19" rx="7" ry="4.5" fill="#fda4af" />
+          <ellipse cx="28" cy="19" rx="7" ry="4.5" fill="#fda4af" />
+          <ellipse cx="12.5" cy="12.5" rx="4.5" ry="7" fill="#fecdd3" transform="rotate(45 12.5 12.5)" />
+          <ellipse cx="25.5" cy="12.5" rx="4.5" ry="7" fill="#fecdd3" transform="rotate(-45 25.5 12.5)" />
+          <ellipse cx="12.5" cy="25.5" rx="4.5" ry="7" fill="#fecdd3" transform="rotate(-45 12.5 25.5)" />
+          <ellipse cx="25.5" cy="25.5" rx="4.5" ry="7" fill="#fecdd3" transform="rotate(45 25.5 25.5)" />
+          <circle cx="19" cy="19" r="5.5" fill="#fb7185" />
+        </svg>
+      </div>
+
+      {/* Floating 4-point star - Mid Left */}
+      {/* Floating 4-point star - Mid Left */}
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute top-1/2 -translate-y-16 left-3 sm:left-6 lg:left-12 z-0 animate-float-1 hidden sm:block transition-all duration-700 ease-out ${
+          sectionVisible ? 'opacity-90 translate-x-0' : 'opacity-0 -translate-x-12'
+        }`}
+        style={{ transitionDelay: sectionVisible ? '250ms' : '0ms' }}
+      >
+        <svg width="36" height="36" viewBox="0 0 40 40" fill="none">
+          <path d="M20 2L24 16L38 20L24 24L20 38L16 24L2 20L16 16Z" fill="#fde047" stroke="#0f172a" strokeWidth="1.5" strokeLinejoin="round" />
+          <circle cx="20" cy="20" r="3" fill="#ffffff" />
+        </svg>
+      </div>
+
+      {/* Floating Lime 5-petal flower - Lower Left */}
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute bottom-24 left-4 sm:left-8 lg:left-14 z-0 animate-float-2 hidden sm:block transition-all duration-700 ease-out ${
+          sectionVisible ? 'opacity-90 translate-x-0' : 'opacity-0 -translate-x-10'
+        }`}
+        style={{ transitionDelay: sectionVisible ? '350ms' : '0ms' }}
+      >
+        <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+          <circle cx="19" cy="11" r="5.5" fill="#bef264" />
+          <circle cx="26" cy="16" r="5.5" fill="#bef264" />
+          <circle cx="24" cy="25" r="5.5" fill="#bef264" />
+          <circle cx="14" cy="25" r="5.5" fill="#bef264" />
+          <circle cx="12" cy="16" r="5.5" fill="#bef264" />
+          <circle cx="19" cy="19" r="4.5" fill="#c4b5fd" />
+        </svg>
+      </div>
+
+      {/* ----------------------------------------------------------------- */}
+      {/* RIGHT DECORATIONS (Dotted curvy line + floating flowers & stars)  */}
+      {/* ----------------------------------------------------------------- */}
+      {/* Vertical dotted curvy line with flower & sparkles (matching Intro) */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-2 z-0 hidden w-14 xl:block">
+        <svg className="absolute top-[10%] h-[560px] w-full overflow-visible opacity-80" viewBox="0 0 56 560" fill="none">
+          <path d="M26 0C4 55 49 100 27 155S5 250 29 305S50 395 27 450S11 515 32 560" stroke="#bef264" strokeWidth="2.5" strokeDasharray="4 8" strokeLinecap="round" />
+          <path d="M26 70L29 81L40 84L29 87L26 98L23 87L12 84L23 81Z" fill="#c4b5fd" />
+          {/* Flower on curvy line */}
+          <g fill="#fda4af" stroke="#fb7185" strokeWidth="1">
+            <circle cx="28" cy="350" r="7" />
+            <circle cx="40" cy="357" r="7" />
+            <circle cx="40" cy="371" r="7" />
+            <circle cx="28" cy="378" r="7" />
+            <circle cx="16" cy="371" r="7" />
+            <circle cx="16" cy="357" r="7" />
+          </g>
+          <circle cx="28" cy="364" r="5" fill="#fde047" />
+          <path d="M35 480L37 487L44 489L37 491L35 498L33 491L26 489L33 487Z" fill="#c4b5fd" />
+        </svg>
+      </div>
+
+      {/* Floating Sparkle Star - Top Right */}
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute top-16 right-4 sm:right-8 lg:right-14 z-0 animate-float-3 hidden sm:block transition-all duration-700 ease-out ${
+          sectionVisible ? 'opacity-90 translate-x-0' : 'opacity-0 translate-x-10'
+        }`}
+        style={{ transitionDelay: sectionVisible ? '150ms' : '0ms' }}
+      >
+        <svg width="38" height="38" viewBox="0 0 40 40" fill="none">
+          <path d="M20 2L24 16L38 20L24 24L20 38L16 24L2 20L16 16Z" fill="#c4b5fd" stroke="#0f172a" strokeWidth="1.5" strokeLinejoin="round" />
+          <circle cx="20" cy="20" r="3" fill="#ffffff" />
+        </svg>
+      </div>
+
+      {/* Floating 6-petal Flower - Mid Right */}
+      <div aria-hidden="true" className="pointer-events-none absolute top-1/2 -translate-y-10 right-3 sm:right-6 lg:right-12 z-0 animate-icon-drift opacity-90 hidden sm:block">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" className="drop-shadow-sm">
+          <circle cx="20" cy="10" r="6" fill="#fecdd3" />
+          <circle cx="28.6" cy="15" r="6" fill="#fecdd3" />
+          <circle cx="28.6" cy="25" r="6" fill="#fecdd3" />
+          <circle cx="20" cy="30" r="6" fill="#fecdd3" />
+          <circle cx="11.4" cy="25" r="6" fill="#fecdd3" />
+          <circle cx="11.4" cy="15" r="6" fill="#fecdd3" />
+          <circle cx="20" cy="20" r="5" fill="#fde047" />
+        </svg>
+      </div>
+
+      {/* Floating Pastel Sunburst / Sparkle - Lower Right */}
+      <div aria-hidden="true" className="pointer-events-none absolute bottom-20 right-4 sm:right-8 lg:right-14 z-0 animate-icon-slow opacity-90 hidden sm:block">
+        <svg width="42" height="42" viewBox="0 0 64 64" fill="none" stroke="#f59e0b" strokeWidth="3" strokeLinecap="round">
+          <line x1="32" y1="8" x2="32" y2="20" />
+          <line x1="32" y1="44" x2="32" y2="56" />
+          <line x1="8" y1="32" x2="20" y2="32" />
+          <line x1="44" y1="32" x2="56" y2="32" />
+          <line x1="15" y1="15" x2="24" y2="24" />
+          <line x1="40" y1="40" x2="49" y2="49" />
+          <line x1="15" y1="49" x2="24" y2="40" />
+          <line x1="40" y1="24" x2="49" y2="15" />
+          <circle cx="32" cy="32" r="5" fill="#fde047" stroke="#0f172a" strokeWidth="1.5" />
+        </svg>
+      </div>
+
       <div
         className="relative mx-auto max-w-4xl"
         style={{ transform: 'scale(0.8)', transformOrigin: 'center top' }}
       >
-        <div className="text-center mb-12">
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
+        {/* Header — pills + heading animate in from below */}
+        <div className="text-center mb-12 relative">
+          {/* Pills — pop in first */}
+          <div
+            className={`flex flex-wrap items-center justify-center gap-3 mb-4 transition-all duration-500 ${
+              sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            }`}
+            style={{ transitionDelay: sectionVisible ? '80ms' : '0ms' }}
+          >
             <span className="inline-flex items-center gap-2 rounded-xl border-2 border-slate-900 bg-purple-100 px-3 py-1.5 text-[10px] sm:text-xs font-black text-purple-900 shadow-[3px_3px_0px_0px_#0f172a]">
               <span className="h-2 w-2 animate-pulse rounded-full bg-purple-500" />
               Quiz Kilas Bangsa
@@ -926,21 +1090,47 @@ export default function Quiz() {
             </span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight mb-3">
+          {/* Heading — slides in slightly after */}
+          <h2
+            className={`text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight mb-3 transition-all duration-500 ${
+              sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}
+            style={{ transitionDelay: sectionVisible ? '200ms' : '0ms' }}
+          >
             Asah Kemampuanmu!
           </h2>
-          <p className="max-w-xl mx-auto text-sm sm:text-base text-slate-600 leading-relaxed font-medium">
+
+          {/* Subtitle */}
+          <p
+            className={`max-w-xl mx-auto text-sm sm:text-base text-slate-600 leading-relaxed font-medium transition-all duration-500 ${
+              sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            }`}
+            style={{ transitionDelay: sectionVisible ? '300ms' : '0ms' }}
+          >
             Uji pemahamanmu tentang wawasan nusantara, geopolitik, dan analisis SWOT Indonesia melalui kuis interaktif dengan pembahasan lengkap.
           </p>
 
-          <div aria-hidden="true" className="mt-5 flex items-center justify-center gap-2">
+          {/* Accent bar — last in header */}
+          <div
+            aria-hidden="true"
+            className={`mt-5 flex items-center justify-center gap-2 relative z-10 transition-all duration-500 ${
+              sectionVisible ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'
+            }`}
+            style={{ transitionDelay: sectionVisible ? '400ms' : '0ms', transformOrigin: 'center' }}
+          >
             <div className="h-1.5 w-16 rounded-full bg-purple-600" />
-            <div className="h-1.5 w-8 rounded-full bg-[#bef264] border border-slate-900" />
+            <div className="h-1.5 w-8 rounded-full bg-[#bef264]" />
             <div className="h-1.5 w-4 rounded-full bg-amber-400" />
           </div>
         </div>
 
-        <div className="relative rounded-3xl bg-white border-2 border-slate-900 shadow-[8px_8px_0px_0px_#0f172a] overflow-hidden">
+        {/* Quiz card — big reveal: slides up + light scale-in bounce */}
+        <div
+          className={`relative rounded-3xl bg-white border-2 border-slate-900 shadow-[8px_8px_0px_0px_#0f172a] overflow-hidden transition-all duration-700 ease-out ${
+            sectionVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-16 scale-[0.97]'
+          }`}
+          style={{ transitionDelay: sectionVisible ? '500ms' : '0ms' }}
+        >
           <div className="h-3 w-full bg-[#bef264] border-b-2 border-slate-900" />
 
           {stage === 'intro' && <QuizIntro onStart={handleStartQuiz} />}

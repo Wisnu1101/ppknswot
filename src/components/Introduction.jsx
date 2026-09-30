@@ -173,16 +173,17 @@ export default function Introduction() {
   const sectionRef = useRef(null)
 
   useEffect(() => {
+    const node = sectionRef.current
+    if (!node) return
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setSectionVisible(true)
-          observer.disconnect()
-        }
+        setSectionVisible(entry.isIntersecting)
       },
-      { threshold: 0.05 }
+      { threshold: 0.08, rootMargin: '0px 0px -5% 0px' }
     )
-    if (sectionRef.current) observer.observe(sectionRef.current)
+
+    observer.observe(node)
     return () => observer.disconnect()
   }, [])
 
@@ -190,7 +191,7 @@ export default function Introduction() {
     <section
       id="pendahuluan"
       ref={sectionRef}
-      className="scroll-mt-16 relative overflow-hidden bg-[#fbf9ed] shadow-[0_12px_32px_rgba(15,23,42,0.12)]"
+      className={`scroll-mt-16 relative overflow-hidden bg-[#fbf9ed] shadow-[0_12px_32px_rgba(15,23,42,0.12)] transition-all duration-700 ease-out ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-2 z-0 hidden w-14 xl:block">
         <svg className="absolute top-[9%] h-[430px] w-full overflow-visible opacity-75" viewBox="0 0 56 430" fill="none">
