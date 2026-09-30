@@ -170,14 +170,21 @@ export default function Swot() {
 
   return (
     <section id="swot" className="scroll-mt-16 py-24 bg-grid-paper">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight uppercase">
+      <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
+        <div className="mb-14 sm:mb-16 text-right" style={{ zoom: 0.9 }}>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 leading-tight mb-4">
             Analisis <span className="text-purple-700">SWOT</span>
           </h2>
-          <p className="text-slate-600 font-bold max-w-2xl mx-auto">
-            Klik pada masing-masing bagian untuk melihat detail analisis SWOT Nasional Indonesia.
-          </p>
+          <div className="inline-block mt-1 rounded-[10px] border-[2.5px] border-[#11172E] bg-[#FAF8EC] px-5 py-2 shadow-[4px_4px_0px_0px_#11172E]">
+            <p className="text-xs sm:text-sm md:text-base font-bold text-slate-900 tracking-tight">
+              Peta Kekuatan, Kelemahan, Peluang, dan Ancaman Indonesia.
+            </p>
+          </div>
+          <div className="mt-6 flex items-center justify-end gap-2">
+            <div className="h-1.5 w-16 rounded-full bg-purple-600" />
+            <div className="h-1.5 w-8 rounded-full bg-[#bef264]" />
+            <div className="h-1.5 w-4 rounded-full bg-amber-400" />
+          </div>
         </div>
 
         <div className="flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24">
@@ -250,7 +257,7 @@ export default function Swot() {
           </div>
 
           {/* Card Content Area */}
-          <div className="w-full max-w-2xl min-h-[400px]">
+          <div className="w-full max-w-2xl min-h-[400px]" style={{ zoom: 0.9 }}>
             {activeTab ? (
               <div 
                 key={activeTab} // Forces re-render for animation on tab change
@@ -276,7 +283,7 @@ export default function Swot() {
                 {/* Scrollable Items */}
                 <div className="flex-1 overflow-y-auto custom-scrollbar p-6 sm:p-8 pt-4 space-y-6">
                   {swotData[activeTab].items.map((item, idx) => (
-                    <div key={idx} className="bg-white/10 p-5 rounded-xl border-2 border-current/20">
+                    <div key={idx} className="bg-[#fffdf0] text-slate-900 p-5 rounded-lg border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0f172a]">
                       <h4 className="font-black text-lg mb-2 flex items-start gap-2">
                         <span className="bg-black/10 dark:bg-white/20 px-2 py-0.5 rounded text-sm shrink-0 mt-0.5">{idx + 1}</span>
                         {item.title}

@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import logo from '../assets/logo.png'
+import TextLoop from './TextLoop'
 
 const conclusionData = [
   {
@@ -93,20 +95,50 @@ export default function Conclusion() {
       <div className="absolute inset-0 opacity-20 pointer-events-none" style={{
         backgroundImage: 'repeating-linear-gradient(45deg, #0f172a 0, #0f172a 2px, transparent 2px, transparent 12px)'
       }}></div>
+
+      <div className="relative z-10 mx-auto -mb-10 max-w-6xl px-5 sm:px-6 lg:px-8" style={{ zoom: 0.8 }}>
+        <TextLoop
+          text="Indonesia Emas 2045"
+          shape="wave"
+          speed={55}
+          separator="✦"
+          curviness={28}
+          fontSize={46}
+          fontWeight={900}
+          color="#0f172a"
+          ribbonColor="#FAF8EC"
+          ribbonWidth={48}
+          className="text-loop--banner"
+        />
+      </div>
       
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 relative z-10" style={{ zoom: 0.8 }}>
+      <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8 relative z-10" style={{ zoom: 0.8 }}>
         
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight uppercase">
+        <div className="mb-12">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 leading-tight mb-4">
             Kesimpulan
           </h2>
-          <p className="text-slate-800 font-bold max-w-2xl mx-auto">
-            Rangkuman strategis dan langkah taktis menuju Indonesia Emas 2045.
-          </p>
+          <div className="inline-block mt-1 rounded-[10px] border-[2.5px] border-[#11172E] bg-[#FAF8EC] px-5 py-2 shadow-[4px_4px_0px_0px_#11172E]">
+            <p className="text-xs sm:text-sm md:text-base font-bold text-slate-900 tracking-tight">
+              Peta Kekuatan, Kelemahan, Peluang, dan Ancaman Indonesia.
+            </p>
+          </div>
+          <div className="mt-6 flex items-center gap-2">
+            <div className="h-1.5 w-16 rounded-full bg-purple-600" />
+            <div className="h-1.5 w-8 rounded-full bg-[#bef264]" />
+            <div className="h-1.5 w-4 rounded-full bg-amber-400" />
+          </div>
         </div>
 
         {/* Retro Mac OS Window */}
-        <div className="mx-auto max-w-5xl rounded-lg border-[3px] border-slate-900 bg-[#f4f1e1] shadow-[12px_12px_0px_0px_#0f172a] overflow-hidden">
+        <div className="relative mx-auto max-w-5xl">
+          <img
+            src={logo}
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-48 right-[8%] z-0 w-48 sm:w-60 lg:w-72 object-contain"
+          />
+          <div className="relative z-10 rounded-lg border-[3px] border-slate-900 bg-[#f4f1e1] shadow-[12px_12px_0px_0px_#0f172a] overflow-hidden">
           
           {/* Window Title Bar */}
           <div className="flex h-10 items-center justify-between border-b-[3px] border-slate-900 bg-[#f4f1e1] px-4">
@@ -216,6 +248,7 @@ export default function Conclusion() {
 
             </div>
 
+          </div>
           </div>
         </div>
 
