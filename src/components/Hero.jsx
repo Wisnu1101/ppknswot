@@ -320,12 +320,12 @@ export default function Hero() {
 
                 {/* HERO TITLE: Single Interactive <TechText /> Component from React Bits */}
                 <h1 className="sr-only">KILAS BANGSA</h1>
-                <div className="mx-auto my-2 w-full max-w-2xl sm:max-w-3xl flex items-center justify-center">
-                  <div className="relative w-full h-14 sm:h-20 md:h-24 lg:h-28">
+                <div className="mx-auto my-2 w-full max-w-5xl flex items-center justify-center">
+                  <div className="relative w-full h-24 sm:h-32 md:h-40 lg:h-48 px-4">
                     <TechText
                       text="KILAS BANGSA"
                       fontWeight={900}
-                      fontSize={130}
+                      fontSize={110}
                       letterSpacing={-0.03}
                       color="#0f172a"
                       accentColor="#7c3aed"
@@ -336,7 +336,6 @@ export default function Hero() {
                       draggable={true}
                       sweep={true}
                       speed={1}
-
                     />
                   </div>
                 </div>

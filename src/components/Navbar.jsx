@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Tabs } from './ui/vercel-tabs'
 
 const navItems = [
@@ -13,11 +13,15 @@ const navItems = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('hero')
+  const isClickScrolling = React.useRef(false)
+  const clickScrollTimeout = React.useRef(null)
 
   useEffect(() => {
     let frameId = 0
 
     const updateActiveSection = () => {
+      if (isClickScrolling.current) return
+
       window.cancelAnimationFrame(frameId)
       frameId = window.requestAnimationFrame(() => {
         const marker = window.scrollY + window.innerHeight * 0.3
@@ -46,8 +50,18 @@ export default function Navbar() {
       window.cancelAnimationFrame(frameId)
       window.removeEventListener('scroll', updateActiveSection)
       window.removeEventListener('resize', updateActiveSection)
+      if (clickScrollTimeout.current) clearTimeout(clickScrollTimeout.current)
     }
   }, [])
+
+  const handleTabClick = (id) => {
+    setActiveTab(id)
+    isClickScrolling.current = true
+    if (clickScrollTimeout.current) clearTimeout(clickScrollTimeout.current)
+    clickScrollTimeout.current = setTimeout(() => {
+      isClickScrolling.current = false
+    }, 1000)
+  }
 
   return (
     <nav className="fixed top-0 left-0 z-50 w-full border-b-2 border-slate-900 bg-[#fbf9ed] transition-all">
@@ -73,7 +87,7 @@ export default function Navbar() {
             className="hidden md:flex"
             tabs={navItems}
             activeTab={activeTab}
-            onTabChange={setActiveTab}
+            onTabChange={handleTabClick}
           />
 
           {/* Right badge & CTA */}

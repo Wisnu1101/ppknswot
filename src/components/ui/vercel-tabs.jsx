@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 
-const cn = (...classes) => classes.filter(Boolean).join(' ')
+export const cn = (...classes) => classes.filter(Boolean).join(' ')
 
 export function Tabs({ tabs, activeTab, onTabChange, className = '', ...props }) {
   const [uncontrolledActiveTab, setUncontrolledActiveTab] = useState(activeTab ?? tabs[0]?.id)
@@ -42,16 +42,16 @@ export function Tabs({ tabs, activeTab, onTabChange, className = '', ...props })
         {/* Neo-brutalist hover marker */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute top-1/2 h-8 -translate-y-1/2 rounded-lg bg-amber-100/90 border border-slate-900/20 transition-all duration-150 ease-out"
+          className="pointer-events-none absolute top-1/2 z-0 h-8 -translate-y-1/2 rounded-lg bg-amber-100/90 border border-slate-900/20 transition-all duration-300 ease-in-out"
           style={{ ...hoverStyle, opacity: hoveredTab ? 1 : 0 }}
         />
         {/* Neo-brutalist active underline */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute bottom-0 h-[3px] bg-slate-900 transition-all duration-200 ease-out"
+          className="pointer-events-none absolute bottom-0 z-10 h-[3px] bg-slate-900 transition-all duration-300 ease-in-out"
           style={activeStyle}
         />
-        <div className="relative flex h-11 items-center gap-1" role="tablist" aria-label="Navigasi halaman">
+        <div className="relative z-20 flex h-11 items-center gap-1" role="tablist" aria-label="Navigasi halaman">
           {tabs.map((tab) => {
             const isActive = tab.id === selectedTab
             return (
