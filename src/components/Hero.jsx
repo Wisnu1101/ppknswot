@@ -50,18 +50,18 @@ export default function Hero() {
           TOP BADGES (Inspired by 'Case', 'Design', 'Multi-page website' in image_0.png)
          ========================================================================= */}
       <div data-hero-enter="top" className="z-10 mb-8 flex flex-wrap items-center justify-center gap-3 px-4" style={{ zoom: 0.8 }}>
-        {/* Badge 1: Case (Purple with dashed border) */}
-        <div className="pill-badge-dashed border-purple-400 bg-purple-600/90 text-white shadow-sm px-6 py-2 rounded-full font-bold text-sm tracking-wide transform -rotate-1 hover:rotate-0 transition-transform">
+        {/* Badge 1: Case (Purple with solid border & block shadow) */}
+        <div className="border-2 border-slate-900 bg-purple-600 text-white shadow-[3px_3px_0px_0px_#0f172a] px-6 py-2 rounded-xl font-black text-sm tracking-wide transform -rotate-1 hover:rotate-0 transition-transform">
           PPKN Case
         </div>
 
-        {/* Badge 2: Design (Lime Green with dashed border) */}
-        <div className="pill-badge-dashed border-lime-500 bg-[#bef264] text-lime-950 shadow-sm px-7 py-2 rounded-full font-extrabold text-sm tracking-wide transform rotate-1 hover:rotate-0 transition-transform">
+        {/* Badge 2: Design (Lime Green with solid border & block shadow) */}
+        <div className="border-2 border-slate-900 bg-[#bef264] text-slate-950 shadow-[3px_3px_0px_0px_#0f172a] px-7 py-2 rounded-xl font-black text-sm tracking-wide transform rotate-1 hover:rotate-0 transition-transform">
           Analisis Strategis
         </div>
 
-        {/* Badge 3: Multi-page website (Yellow-Lime with dashed border) */}
-        <div className="pill-badge-dashed border-amber-400 bg-[#fde047] text-amber-950 shadow-sm px-8 py-2 rounded-full font-extrabold text-sm tracking-wide transform -rotate-1 hover:rotate-0 transition-transform">
+        {/* Badge 3: Multi-page website (Yellow with solid border & block shadow) */}
+        <div className="border-2 border-slate-900 bg-[#fde047] text-slate-950 shadow-[3px_3px_0px_0px_#0f172a] px-8 py-2 rounded-xl font-black text-sm tracking-wide transform -rotate-1 hover:rotate-0 transition-transform">
           Kilas Bangsa Interactive
         </div>
       </div>
@@ -214,24 +214,24 @@ export default function Hero() {
           <div className="absolute -bottom-8 left-1/2 h-10 w-3/4 -translate-x-1/2 rounded-full bg-slate-900/15 blur-2xl"></div>
 
           {/* Laptop Outer Bezel & Body */}
-          <div className="relative rounded-3xl bg-gradient-to-b from-slate-800 to-slate-950 p-3 sm:p-4 shadow-[0_30px_70px_rgba(15,23,42,0.35)] ring-1 ring-white/20">
+          <div className="relative rounded-3xl bg-slate-900 p-3 sm:p-4 shadow-[10px_10px_0px_0px_#0f172a] border-2 border-slate-900">
             
             {/* Webcam / Notch Area */}
-            <div className="absolute top-[4px] left-1/2 flex -translate-x-1/2 items-center gap-1.5 z-30">
+            <div className="absolute top-[6px] left-1/2 flex -translate-x-1/2 items-center gap-1.5 z-30">
               <div className="h-2 w-2 rounded-full bg-slate-700 ring-1 ring-slate-600"></div>
-              <div className="h-1 w-1 rounded-full bg-emerald-500 animate-pulse"></div>
+              <div className="h-1 w-1 rounded-full bg-[#bef264]"></div>
             </div>
 
             {/* LAPTOP SCREEN BEZEL */}
-            <div className="relative overflow-hidden rounded-2xl bg-[#fefdf8] border border-slate-200/90 shadow-inner">
+            <div className="relative overflow-hidden rounded-2xl bg-[#fefdf8] border-2 border-slate-900">
               
               {/* Screen Top Bar / Window Header */}
-              <div className="flex h-9 items-center justify-between border-b border-amber-200/70 bg-[#faf6e8] px-4">
-                {/* Window Dots (macOS style) */}
+              <div className="flex h-9 items-center justify-between border-b-2 border-slate-900 bg-[#faf6e8] px-4">
+                {/* Window Dots (Neo-brutalist style) */}
                 <div className="flex items-center gap-1.5">
-                  <div className="h-2.5 w-2.5 rounded-full bg-red-400/90 shadow-xs"></div>
-                  <div className="h-2.5 w-2.5 rounded-full bg-amber-400/90 shadow-xs"></div>
-                  <div className="h-2.5 w-2.5 rounded-full bg-emerald-400/90 shadow-xs"></div>
+                  <div className="h-3 w-3 rounded-full bg-red-400 border border-slate-900"></div>
+                  <div className="h-3 w-3 rounded-full bg-amber-400 border border-slate-900"></div>
+                  <div className="h-3 w-3 rounded-full bg-[#bef264] border border-slate-900"></div>
                 </div>
 
                 {/* Minimal Header Navigation Bar on Laptop Screen */}
@@ -316,17 +316,19 @@ export default function Hero() {
                       draggable={true}
                       sweep={true}
                       speed={1}
-                      style={{
-                        filter: 'drop-shadow(0 0 1.5px rgba(196, 181, 253, 0.95)) drop-shadow(0 5px 7px rgba(124, 58, 237, 0.3))',
-                      }}
+
                     />
                   </div>
                 </div>
 
-                {/* SUBTITLE */}
-                <p className="mx-auto max-w-xl text-xs sm:text-sm md:text-base font-semibold text-slate-600 sm:font-medium">
-                  Peta Kekuatan, Kelemahan, Peluang, dan Ancaman Indonesia.
-                </p>
+                {/* SUBTITLE — Neo-Brutalist text box */}
+                <div className="mt-1 flex justify-center">
+                  <div className="inline-block rounded-[10px] border-[2.5px] border-[#11172E] bg-[#FAF8EC] px-5 py-2 shadow-[4px_4px_0px_0px_#11172E]">
+                    <p className="text-xs sm:text-sm md:text-base font-bold text-slate-900 tracking-tight">
+                      Peta Kekuatan, Kelemahan, Peluang, dan Ancaman Indonesia.
+                    </p>
+                  </div>
+                </div>
 
                 {/* -----------------------------------------------------------------
                     KEY SECTIONS: 4 Interactive <FolderFloat /> Components from React Bits
@@ -334,7 +336,7 @@ export default function Hero() {
                    ----------------------------------------------------------------- */}
                 <div className="mt-14 sm:mt-16 pt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-4 lg:gap-3 justify-items-center items-end">
                   
-                  {/* Folder 1: Pendahuluan (Pastel Indigo/Sky) */}
+                  {/* Folder 1: Pendahuluan */}
                   <div className="flex flex-col items-center">
                     <FolderFloat
                       href="#pendahuluan"
@@ -343,13 +345,13 @@ export default function Hero() {
                       items={['Latar Belakang', 'Tujuan Kajian', 'Wawasan Nusantara']}
                       folderColor="#9333ea"
                       frontColor="#9333ea"
-                      paperColor="#e0e7ff"
-                      itemColor="#ffffff"
-                      itemTextColor="#312e81"
+                      paperColor="#e9d5ff"
+                      itemColor="#e9d5ff"
+                      itemTextColor="#3b0764"
                       labelColor="#ffffff"
                       width={144}
                       height={104}
-                      radius={12}
+                      radius={8}
                       spread={88}
                       lift={22}
                       trigger="hover"
@@ -357,7 +359,7 @@ export default function Hero() {
                     />
                   </div>
 
-                  {/* Folder 2: SWOT (Pastel Royal Purple) */}
+                  {/* Folder 2: SWOT */}
                   <div className="flex flex-col items-center">
                     <FolderFloat
                       href="#swot"
@@ -366,13 +368,13 @@ export default function Hero() {
                       items={['Strengths (Kekuatan)', 'Weaknesses (Kelemahan)', 'Opportunities (Peluang)', 'Threats (Ancaman)']}
                       folderColor="#bef264"
                       frontColor="#bef264"
-                      paperColor="#f3e8ff"
-                      itemColor="#ffffff"
-                      itemTextColor="#581c87"
-                      labelColor="#064e3b"
+                      paperColor="#ecfccb"
+                      itemColor="#ecfccb"
+                      itemTextColor="#1a2e05"
+                      labelColor="#1a2e05"
                       width={144}
                       height={104}
-                      radius={12}
+                      radius={8}
                       spread={98}
                       lift={22}
                       trigger="hover"
@@ -380,7 +382,7 @@ export default function Hero() {
                     />
                   </div>
 
-                  {/* Folder 3: Kesimpulan (Pastel Warm Amber/Coral) */}
+                  {/* Folder 3: Kesimpulan */}
                   <div className="flex flex-col items-center">
                     <FolderFloat
                       href="#kesimpulan"
@@ -389,13 +391,13 @@ export default function Hero() {
                       items={['Sintesis Kebijakan', 'Rekomendasi Strategis', 'Aksi Pemuda 2045']}
                       folderColor="#fde047"
                       frontColor="#fde047"
-                      paperColor="#ffedd5"
-                      itemColor="#ffffff"
-                      itemTextColor="#7c2d12"
-                      labelColor="#422006"
+                      paperColor="#fef9c3"
+                      itemColor="#fef9c3"
+                      itemTextColor="#713f12"
+                      labelColor="#1c1917"
                       width={144}
                       height={104}
-                      radius={12}
+                      radius={8}
                       spread={88}
                       lift={22}
                       trigger="hover"
@@ -403,7 +405,7 @@ export default function Hero() {
                     />
                   </div>
 
-                  {/* Folder 4: Quiz (Pastel Emerald/Mint) */}
+                  {/* Folder 4: Quiz */}
                   <div className="flex flex-col items-center">
                     <FolderFloat
                       href="#quiz"
@@ -412,13 +414,13 @@ export default function Hero() {
                       items={['Mulai Uji Materi', 'Evaluasi Pemahaman', 'Skor & Prestasi']}
                       folderColor="#ff4fa3"
                       frontColor="#ff4fa3"
-                      paperColor="#d1fae5"
-                      itemColor="#ffffff"
-                      itemTextColor="#064e3b"
-                      labelColor="#4a102e"
+                      paperColor="#fce7f3"
+                      itemColor="#fce7f3"
+                      itemTextColor="#831843"
+                      labelColor="#1c1917"
                       width={144}
                       height={104}
-                      radius={12}
+                      radius={8}
                       spread={88}
                       lift={22}
                       trigger="hover"
@@ -435,7 +437,7 @@ export default function Hero() {
                   {/* Prominent Green Button: "Explore →" */}
                   <a
                     href="#swot"
-                    className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#84cc16] px-8 py-3.5 text-base font-extrabold text-slate-900 shadow-md shadow-lime-500/30 transition-all hover:bg-[#65a30d] hover:scale-105 hover:shadow-lg active:scale-95 cursor-pointer ring-2 ring-lime-300"
+                    className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#bef264] px-8 py-3.5 text-base font-black text-slate-950 border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0f172a] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_#0f172a] active:translate-x-1 active:translate-y-1 active:shadow-none transition-all cursor-pointer"
                   >
                     <span>Explore</span>
                     <span className="text-xl leading-none transition-transform group-hover:translate-x-1">→</span>
@@ -444,24 +446,24 @@ export default function Hero() {
                   {/* Team Avatar: Labeled "Kelompok 1" */}
                   <a
                     href="#about-us"
-                    className="flex items-center gap-3 rounded-full bg-white/90 py-1.5 px-3.5 shadow-sm border border-slate-200 hover:bg-white hover:shadow-md transition-all"
+                    className="flex items-center gap-3 rounded-xl bg-white py-1.5 px-3.5 border-2 border-slate-900 shadow-[3px_3px_0px_0px_#0f172a] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0px_0px_#0f172a] transition-all"
                   >
                     <div className="flex -space-x-2 overflow-hidden">
                       {/* Avatar icon 1 */}
-                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-purple-600 ring-2 ring-white text-xs font-bold text-white shadow-xs">
+                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-purple-600 border border-slate-900 text-xs font-bold text-white shadow-xs">
                         🎓
                       </span>
                       {/* Avatar icon 2 */}
-                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-amber-500 ring-2 ring-white text-xs font-bold text-white shadow-xs">
+                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-amber-400 border border-slate-900 text-xs font-bold text-slate-950 shadow-xs">
                         🇮🇩
                       </span>
                     </div>
                     <div className="text-left">
-                      <span className="block text-xs font-black text-slate-800 leading-tight">
+                      <span className="block text-xs font-black text-slate-900 leading-tight">
                         Kelompok 1
                       </span>
-                      <span className="block text-[10px] font-semibold text-purple-700">
-                        Penyusun Materi PPKN
+                      <span className="block text-[10px] text-purple-700 font-black">
+                        PPKN Project
                       </span>
                     </div>
                   </a>
@@ -481,70 +483,70 @@ export default function Hero() {
       </div>
 
       {/* =========================================================================
-          LOWER HIGHLIGHT BANNER (Matching the Lower Purple Section in image_0.png)
+          LOWER HIGHLIGHT BANNER (Neo-brutalist)
          ========================================================================= */}
       <div data-hero-enter="top" className="mx-auto mt-12 w-full max-w-6xl px-4 sm:px-6 lg:px-8 z-10" style={{ zoom: 0.8 }}>
-        <div className="rounded-3xl bg-gradient-to-br from-[#7c3aed] via-[#6d28d9] to-[#5b21b6] p-6 sm:p-8 text-white shadow-2xl border border-purple-400/40">
+        <div className="rounded-3xl bg-[#7c3aed] p-6 sm:p-8 text-white border-2 border-slate-900 shadow-[8px_8px_0px_0px_#0f172a]">
           
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-purple-400/30">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b-2 border-slate-900">
             <div>
               <h2 className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight leading-snug">
                 Eksplorasi Analisis Strategis untuk Masa Depan Kebangsaan Indonesia
               </h2>
-              <p className="mt-1 text-xs sm:text-sm text-purple-200">
+              <p className="mt-1 text-xs sm:text-sm text-purple-100 font-medium">
                 Memahami posisi strategis geopolitik dan ketahanan nasional dalam menyongsong Indonesia Emas 2045.
               </p>
             </div>
 
             {/* Hashtag Pills */}
             <div className="flex flex-wrap gap-2">
-              <span className="rounded-full bg-purple-500/50 px-3 py-1 text-xs font-bold text-purple-100 border border-purple-300/40">
+              <span className="rounded-xl bg-white text-slate-950 px-3 py-1 text-xs font-black border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0f172a]">
                 #SWOTNasional
               </span>
-              <span className="rounded-full bg-lime-400 text-slate-950 px-3 py-1 text-xs font-black shadow-xs">
+              <span className="rounded-xl bg-[#bef264] text-slate-950 px-3 py-1 text-xs font-black border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0f172a]">
                 #IndonesiaEmas2045
               </span>
-              <span className="rounded-full bg-purple-500/50 px-3 py-1 text-xs font-bold text-purple-100 border border-purple-300/40">
+              <span className="rounded-xl bg-[#fde047] text-slate-950 px-3 py-1 text-xs font-black border-2 border-slate-900 shadow-[2px_2px_0px_0px_#0f172a]">
                 #WawasanNusantara
               </span>
             </div>
           </div>
 
-          {/* 4 Feature Columns */}
+          {/* 4 Feature Columns in Neo-Brutalism */}
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             
             {/* Card 1: Strengths */}
-            <div className="rounded-2xl bg-white/10 p-4 backdrop-blur-xs border border-white/15 hover:bg-white/15 transition-colors">
+            <div className="rounded-2xl bg-[#ecfccb] text-slate-950 p-4 border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0f172a]">
               <div className="text-xl mb-2">💪</div>
-              <h4 className="text-sm font-extrabold text-white">Kekuatan (Strengths)</h4>
-              <p className="mt-1 text-xs text-purple-100 leading-relaxed">
+              <h4 className="text-sm font-black text-slate-950">Kekuatan (Strengths)</h4>
+              <p className="mt-1 text-xs text-slate-800 font-medium leading-relaxed">
                 Kekayaan biodiversitas, posisi silang maritim dunia, dan bonus demografi generasi muda produktif.
               </p>
             </div>
 
             {/* Card 2: Weaknesses */}
-            <div className="rounded-2xl bg-white/10 p-4 backdrop-blur-xs border border-white/15 hover:bg-white/15 transition-colors">
+            <div className="rounded-2xl bg-[#fee2e2] text-slate-950 p-4 border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0f172a]">
               <div className="text-xl mb-2">⚖️</div>
-              <h4 className="text-sm font-extrabold text-white">Kelemahan (Weaknesses)</h4>
-              <p className="mt-1 text-xs text-purple-100 leading-relaxed">
+              <h4 className="text-sm font-black text-slate-950">Kelemahan (Weaknesses)</h4>
+              <p className="mt-1 text-xs text-slate-800 font-medium leading-relaxed">
                 Kesenjangan infrastruktur konektivitas antarwilayah dan pemerataan akses pendidikan berkualitas.
               </p>
             </div>
 
             {/* Card 3: Opportunities */}
-            <div className="rounded-2xl bg-white/10 p-4 backdrop-blur-xs border border-white/15 hover:bg-white/15 transition-colors">
+            <div className="rounded-2xl bg-[#fef9c3] text-slate-950 p-4 border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0f172a]">
               <div className="text-xl mb-2">🚀</div>
-              <h4 className="text-sm font-extrabold text-white">Peluang (Opportunities)</h4>
-              <p className="mt-1 text-xs text-purple-100 leading-relaxed">
+              <h4 className="text-sm font-black text-slate-950">Peluang (Opportunities)</h4>
+              <p className="mt-1 text-xs text-slate-800 font-medium leading-relaxed">
                 Hilirisasi industri sumber daya alam, transisi energi hijau terbarukan, dan kepemimpinan di ASEAN.
               </p>
             </div>
 
             {/* Card 4: Threats */}
-            <div className="rounded-2xl bg-white/10 p-4 backdrop-blur-xs border border-white/15 hover:bg-white/15 transition-colors">
+            <div className="rounded-2xl bg-[#f3e8ff] text-slate-950 p-4 border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0f172a]">
               <div className="text-xl mb-2">🛡️</div>
-              <h4 className="text-sm font-extrabold text-white">Ancaman (Threats)</h4>
-              <p className="mt-1 text-xs text-purple-100 leading-relaxed">
+              <h4 className="text-sm font-black text-slate-950">Ancaman (Threats)</h4>
+              <p className="mt-1 text-xs text-slate-800 font-medium leading-relaxed">
                 Rivalitas geopolitik kawasan, disrupsi keamanan siber, dan kerentanan dampak krisis iklim global.
               </p>
             </div>
