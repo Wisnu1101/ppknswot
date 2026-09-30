@@ -24,6 +24,7 @@ export default function Footer() {
             <a href="#kesimpulan" className="hover:text-purple-700 transition-colors">Kesimpulan</a>
             <a href="#quiz" className="hover:text-purple-700 transition-colors">Quiz</a>
             <a href="#about-us" className="hover:text-purple-700 transition-colors">About Us</a>
+            <a href="#komentar" className="hover:text-purple-700 transition-colors">Komentar</a>
           </div>
 
           {/* Project Badge */}

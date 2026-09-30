@@ -168,10 +168,25 @@ export default function Swot() {
     setActiveTab(activeTab === tab ? null : tab)
   }
 
+  // Animasi belah ketupat:
+  // - sebelum diklik (idle)      -> mengambang halus (bernafas)
+  // - sesudah diklik (aktif)     -> pop kenyal lalu bernafas pelan
+  // - saat ada yang aktif, yang lain diam & meredup agar fokus
+  const diamondAnim = (tab) => {
+    if (activeTab === tab) return 'animate-swot-active'
+    if (!activeTab) return 'animate-swot-float'
+    return ''
+  }
+
+  // Jeda berbeda tiap belah ketupat agar gerakannya tidak seragam (organik).
+  // Hanya untuk kondisi idle; saat aktif, delay glow diatur dari CSS.
+  const idleDelays = { S: '0s', W: '0.6s', O: '1.2s', T: '1.8s' }
+  const animDelay = (tab) => (activeTab ? undefined : idleDelays[tab])
+
   return (
-    <section id="swot" className="scroll-mt-16 py-24 bg-grid-paper">
+    <section id="swot" className="scroll-mt-16 pt-16 pb-12 bg-grid-paper">
       <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
-        <div className="mb-14 sm:mb-16 text-right" style={{ zoom: 0.9 }}>
+        <div className="mb-14 sm:mb-16 text-center" style={{ zoom: 0.9 }}>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 leading-tight mb-4">
             Analisis <span className="text-purple-700">SWOT</span>
           </h2>
@@ -180,32 +195,45 @@ export default function Swot() {
               Peta Kekuatan, Kelemahan, Peluang, dan Ancaman Indonesia.
             </p>
           </div>
-          <div className="mt-6 flex items-center justify-end gap-2">
+          <div className="mt-6 flex items-center justify-center gap-2">
             <div className="h-1.5 w-16 rounded-full bg-purple-600" />
             <div className="h-1.5 w-8 rounded-full bg-[#bef264]" />
             <div className="h-1.5 w-4 rounded-full bg-amber-400" />
           </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24">
+        {/* When no tab is selected: diamond centered. When tab selected: diamond left + detail right */}
+        <div className={cn(
+          'flex items-center justify-center transition-all duration-500',
+          activeTab ? 'flex-col lg:flex-row gap-16 lg:gap-24' : 'flex-col gap-8'
+        )}>
           {/* SWOT Diamond Grid */}
-          <div className="relative w-[300px] h-[300px] sm:w-[380px] sm:h-[380px] flex-shrink-0">
+          <div className={cn(
+            'relative flex-shrink-0 transition-all duration-500',
+            activeTab 
+              ? 'w-[300px] h-[300px] sm:w-[380px] sm:h-[380px]' 
+              : 'w-[360px] h-[360px] sm:w-[460px] sm:h-[460px]'
+          )}>
             {/* Center SWOT Label */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 transition-all pointer-events-none flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-white border-4 border-slate-900 rounded-2xl rotate-45 shadow-[4px_4px_0px_0px_#0f172a]">
-              <span className="-rotate-45 font-black text-slate-900 text-lg sm:text-xl tracking-widest">SWOT</span>
+              <span className="animate-swot-center -rotate-45 font-black text-slate-900 text-lg sm:text-xl tracking-widest">SWOT</span>
             </div>
 
             {/* S - Top */}
             <button
               onClick={() => handleTabClick('S')}
               className={cn(
-                'absolute top-1/2 left-1/2 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-4 border-slate-900 rotate-45 flex items-center justify-center cursor-pointer transition-all duration-200 z-20 outline-none focus:ring-4 focus:ring-purple-500/50',
+                'absolute top-1/2 left-1/2 rounded-2xl border-4 border-slate-900 rotate-45 flex items-center justify-center cursor-pointer transition-all duration-300 z-20 outline-none focus:ring-4 focus:ring-purple-500/50',
+                activeTab ? 'w-20 h-20 sm:w-24 sm:h-24' : 'w-24 h-24 sm:w-28 sm:h-28',
                 swotData.S.color,
                 'translate-x-[-50%] translate-y-[calc(-50%-64px)] sm:translate-y-[calc(-50%-76px)]',
                 activeTab === 'S' 
                   ? 'translate-y-[calc(-50%-60px)] sm:translate-y-[calc(-50%-72px)] shadow-none opacity-100' 
-                  : 'shadow-[6px_6px_0px_0px_#0f172a] opacity-60 hover:opacity-90 hover:translate-y-[calc(-50%-68px)] sm:hover:translate-y-[calc(-50%-80px)] hover:shadow-[8px_8px_0px_0px_#0f172a] active:translate-y-[calc(-50%-60px)] sm:active:translate-y-[calc(-50%-72px)] active:shadow-none'
+                  : 'shadow-[6px_6px_0px_0px_#0f172a] hover:opacity-90 hover:translate-y-[calc(-50%-68px)] sm:hover:translate-y-[calc(-50%-80px)] hover:shadow-[8px_8px_0px_0px_#0f172a] active:translate-y-[calc(-50%-60px)] sm:active:translate-y-[calc(-50%-72px)] active:shadow-none',
+                activeTab && activeTab !== 'S' ? 'opacity-60' : 'opacity-100',
+                diamondAnim('S')
               )}
+              style={{ animationDelay: animDelay('S') }}
             >
               <span className={cn('-rotate-45 font-black text-3xl', swotData.S.textColor)}>S</span>
             </button>
@@ -214,13 +242,17 @@ export default function Swot() {
             <button
               onClick={() => handleTabClick('W')}
               className={cn(
-                'absolute top-1/2 left-1/2 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-4 border-slate-900 rotate-45 flex items-center justify-center cursor-pointer transition-all duration-200 z-20 outline-none focus:ring-4 focus:ring-purple-500/50',
+                'absolute top-1/2 left-1/2 rounded-2xl border-4 border-slate-900 rotate-45 flex items-center justify-center cursor-pointer transition-all duration-300 z-20 outline-none focus:ring-4 focus:ring-purple-500/50',
+                activeTab ? 'w-20 h-20 sm:w-24 sm:h-24' : 'w-24 h-24 sm:w-28 sm:h-28',
                 swotData.W.color,
                 'translate-x-[calc(-50%-64px)] sm:translate-x-[calc(-50%-76px)] translate-y-[-50%]',
                 activeTab === 'W'
                   ? 'translate-x-[calc(-50%-60px)] sm:translate-x-[calc(-50%-72px)] translate-y-[calc(-50%+4px)] shadow-none opacity-100'
-                  : 'shadow-[6px_6px_0px_0px_#0f172a] opacity-60 hover:opacity-90 hover:translate-x-[calc(-50%-68px)] sm:hover:translate-x-[calc(-50%-80px)] hover:translate-y-[calc(-50%-4px)] hover:shadow-[8px_8px_0px_0px_#0f172a] active:translate-x-[calc(-50%-60px)] sm:active:translate-x-[calc(-50%-72px)] active:translate-y-[calc(-50%+4px)] active:shadow-none'
+                  : 'shadow-[6px_6px_0px_0px_#0f172a] hover:opacity-90 hover:translate-x-[calc(-50%-68px)] sm:hover:translate-x-[calc(-50%-80px)] hover:translate-y-[calc(-50%-4px)] hover:shadow-[8px_8px_0px_0px_#0f172a] active:translate-x-[calc(-50%-60px)] sm:active:translate-x-[calc(-50%-72px)] active:translate-y-[calc(-50%+4px)] active:shadow-none',
+                activeTab && activeTab !== 'W' ? 'opacity-60' : 'opacity-100',
+                diamondAnim('W')
               )}
+              style={{ animationDelay: animDelay('W') }}
             >
               <span className={cn('-rotate-45 font-black text-3xl', swotData.W.textColor)}>W</span>
             </button>
@@ -229,13 +261,17 @@ export default function Swot() {
             <button
               onClick={() => handleTabClick('O')}
               className={cn(
-                'absolute top-1/2 left-1/2 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-4 border-slate-900 rotate-45 flex items-center justify-center cursor-pointer transition-all duration-200 z-20 outline-none focus:ring-4 focus:ring-purple-500/50',
+                'absolute top-1/2 left-1/2 rounded-2xl border-4 border-slate-900 rotate-45 flex items-center justify-center cursor-pointer transition-all duration-300 z-20 outline-none focus:ring-4 focus:ring-purple-500/50',
+                activeTab ? 'w-20 h-20 sm:w-24 sm:h-24' : 'w-24 h-24 sm:w-28 sm:h-28',
                 swotData.O.color,
                 'translate-x-[calc(-50%+64px)] sm:translate-x-[calc(-50%+76px)] translate-y-[-50%]',
                 activeTab === 'O'
                   ? 'translate-x-[calc(-50%+60px)] sm:translate-x-[calc(-50%+72px)] translate-y-[calc(-50%+4px)] shadow-none opacity-100'
-                  : 'shadow-[6px_6px_0px_0px_#0f172a] opacity-60 hover:opacity-90 hover:translate-x-[calc(-50%+68px)] sm:hover:translate-x-[calc(-50%+80px)] hover:translate-y-[calc(-50%-4px)] hover:shadow-[8px_8px_0px_0px_#0f172a] active:translate-x-[calc(-50%+60px)] sm:active:translate-x-[calc(-50%+72px)] active:translate-y-[calc(-50%+4px)] active:shadow-none'
+                  : 'shadow-[6px_6px_0px_0px_#0f172a] hover:opacity-90 hover:translate-x-[calc(-50%+68px)] sm:hover:translate-x-[calc(-50%+80px)] hover:translate-y-[calc(-50%-4px)] hover:shadow-[8px_8px_0px_0px_#0f172a] active:translate-x-[calc(-50%+60px)] sm:active:translate-x-[calc(-50%+72px)] active:translate-y-[calc(-50%+4px)] active:shadow-none',
+                activeTab && activeTab !== 'O' ? 'opacity-60' : 'opacity-100',
+                diamondAnim('O')
               )}
+              style={{ animationDelay: animDelay('O') }}
             >
               <span className={cn('-rotate-45 font-black text-3xl', swotData.O.textColor)}>O</span>
             </button>
@@ -244,23 +280,34 @@ export default function Swot() {
             <button
               onClick={() => handleTabClick('T')}
               className={cn(
-                'absolute top-1/2 left-1/2 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-4 border-slate-900 rotate-45 flex items-center justify-center cursor-pointer transition-all duration-200 z-20 outline-none focus:ring-4 focus:ring-purple-500/50',
+                'absolute top-1/2 left-1/2 rounded-2xl border-4 border-slate-900 rotate-45 flex items-center justify-center cursor-pointer transition-all duration-300 z-20 outline-none focus:ring-4 focus:ring-purple-500/50',
+                activeTab ? 'w-20 h-20 sm:w-24 sm:h-24' : 'w-24 h-24 sm:w-28 sm:h-28',
                 swotData.T.color,
                 'translate-x-[-50%] translate-y-[calc(-50%+64px)] sm:translate-y-[calc(-50%+76px)]',
                 activeTab === 'T'
                   ? 'translate-y-[calc(-50%+60px)] sm:translate-y-[calc(-50%+72px)] shadow-none opacity-100'
-                  : 'shadow-[6px_6px_0px_0px_#0f172a] opacity-60 hover:opacity-90 hover:translate-y-[calc(-50%+68px)] sm:hover:translate-y-[calc(-50%+80px)] hover:shadow-[8px_8px_0px_0px_#0f172a] active:translate-y-[calc(-50%+60px)] sm:active:translate-y-[calc(-50%+72px)] active:shadow-none'
+                  : 'shadow-[6px_6px_0px_0px_#0f172a] hover:opacity-90 hover:translate-y-[calc(-50%+68px)] sm:hover:translate-y-[calc(-50%+80px)] hover:shadow-[8px_8px_0px_0px_#0f172a] active:translate-y-[calc(-50%+60px)] sm:active:translate-y-[calc(-50%+72px)] active:shadow-none',
+                activeTab && activeTab !== 'T' ? 'opacity-60' : 'opacity-100',
+                diamondAnim('T')
               )}
+              style={{ animationDelay: animDelay('T') }}
             >
               <span className={cn('-rotate-45 font-black text-3xl', swotData.T.textColor)}>T</span>
             </button>
           </div>
 
-          {/* Card Content Area */}
-          <div className="w-full max-w-2xl min-h-[400px]" style={{ zoom: 0.9 }}>
-            {activeTab ? (
+          {/* Instruction text when no tab selected */}
+          {!activeTab && (
+            <p className="text-slate-500 font-bold text-center text-sm animate-pulse">
+              Klik salah satu belah ketupat di atas untuk melihat detail analisis SWOT.
+            </p>
+          )}
+
+          {/* Card Content Area — only shown when a tab is selected */}
+          {activeTab && (
+            <div className="w-full max-w-2xl min-h-[400px] animate-fade-in-up" style={{ zoom: 0.9 }}>
               <div 
-                key={activeTab} // Forces re-render for animation on tab change
+                key={activeTab}
                 className={cn(
                   'w-full max-h-[500px] flex flex-col rounded-2xl border-4 border-slate-900 shadow-[8px_8px_0px_0px_#0f172a] transition-all animate-fade-in-up',
                   swotData[activeTab].color,
@@ -283,7 +330,11 @@ export default function Swot() {
                 {/* Scrollable Items */}
                 <div className="flex-1 overflow-y-auto custom-scrollbar p-6 sm:p-8 pt-4 space-y-6">
                   {swotData[activeTab].items.map((item, idx) => (
-                    <div key={idx} className="bg-[#fffdf0] text-slate-900 p-5 rounded-lg border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0f172a]">
+                    <div
+                      key={idx}
+                      className="animate-swot-item bg-[#fffdf0] text-slate-900 p-5 rounded-lg border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0f172a]"
+                      style={{ animationDelay: `${0.12 + idx * 0.09}s` }}
+                    >
                       <h4 className="font-black text-lg mb-2 flex items-start gap-2">
                         <span className="bg-black/10 dark:bg-white/20 px-2 py-0.5 rounded text-sm shrink-0 mt-0.5">{idx + 1}</span>
                         {item.title}
@@ -300,20 +351,8 @@ export default function Swot() {
                   ))}
                 </div>
               </div>
-            ) : (
-              <div className="w-full h-full min-h-[400px] p-8 rounded-2xl border-4 border-dashed border-slate-300 bg-white/50 flex flex-col items-center justify-center text-center">
-                <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mb-6 shadow-inner">
-                  <svg className="w-10 h-10 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
-                  </svg>
-                </div>
-                <h4 className="text-xl font-black text-slate-800 mb-2">Pilih Kategori</h4>
-                <p className="text-slate-500 font-bold max-w-xs">
-                  Klik salah satu belah ketupat di samping untuk melihat detail analisis SWOT.
-                </p>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -8,6 +8,7 @@ const navItems = [
   { id: 'kesimpulan', label: 'Kesimpulan' },
   { id: 'quiz', label: 'Quiz' },
   { id: 'about-us', label: 'About Us' },
+  { id: 'komentar', label: 'Komentar' },
 ]
 
 export default function Navbar() {

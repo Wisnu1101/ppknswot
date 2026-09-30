@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import logo from '../assets/logo.png'
-import TextLoop from './TextLoop'
+
 
 const conclusionData = [
   {
@@ -25,7 +25,7 @@ const conclusionData = [
         text: 'Terlibat aktif dalam aksi volunteer, edukasi masyarakat daerah tertinggal, serta kampanye pelestarian lingkungan untuk menanggulangi dampak kerawanan bencana.'
       }
     ],
-    image: '/img/kesimpulan-1.jpg',
+    image: '/img/kesimpulan-1.jpeg',
     fileName: 'pemuda_2045.jpg'
   },
   {
@@ -50,7 +50,7 @@ const conclusionData = [
         text: 'Menerapkan sistem pemerintahan berbasis elektronik (e-government) secara transparan guna menutup celah pungutan liar (pungli) dan praktik korupsi.'
       }
     ],
-    image: '/img/kesimpulan-2.jpg',
+    image: '/img/kesimpulan-2.jpeg',
     fileName: 'strategi_nasional.jpg'
   },
   {
@@ -71,7 +71,7 @@ const conclusionData = [
         text: 'Memanfaatkan posisi geostrategis Indonesia untuk memperkuat posisi tawar di kancah internasional melalui diplomasi hijau (green diplomacy) dan pelestarian warisan budaya dunia.'
       }
     ],
-    image: '/img/kesimpulan-3.jpg',
+    image: '/img/kesimpulan-3.jpeg',
     fileName: 'kebijakan_makro.jpg'
   }
 ]
@@ -96,21 +96,8 @@ export default function Conclusion() {
         backgroundImage: 'repeating-linear-gradient(45deg, #0f172a 0, #0f172a 2px, transparent 2px, transparent 12px)'
       }}></div>
 
-      <div className="relative z-10 mx-auto -mb-10 max-w-6xl px-5 sm:px-6 lg:px-8" style={{ zoom: 0.8 }}>
-        <TextLoop
-          text="Indonesia Emas 2045"
-          shape="wave"
-          speed={55}
-          separator="✦"
-          curviness={28}
-          fontSize={46}
-          fontWeight={900}
-          color="#0f172a"
-          ribbonColor="#FAF8EC"
-          ribbonWidth={48}
-          className="text-loop--banner"
-        />
-      </div>
+
+      
       
       <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8 relative z-10" style={{ zoom: 0.8 }}>
         

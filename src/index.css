@@ -130,6 +130,89 @@ body {
   animation: fade-in-up 0.3s ease-out forwards;
 }
 
+/* ------------------------------------------------------------------ */
+/* Animasi Belah Ketupat SWOT                                          */
+/* ------------------------------------------------------------------ */
+/* Idle: belah ketupat "bernafas" (membesar-mengecil halus) sebelum diklik.
+   Hanya menganimasikan `scale` agar posisi (translate) & kemiringan
+   45 derajat (rotate) dari Tailwind v4 tetap utuh. */
+@keyframes swot-diamond-float {
+  0%,
+  100% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.07;
+  }
+}
+
+.animate-swot-float {
+  animation: swot-diamond-float 3.2s ease-in-out infinite;
+  will-change: scale;
+}
+
+/* Sesudah diklik: pop kenyal lalu "bernafas" pelan sebagai penanda aktif. */
+@keyframes swot-diamond-pop {
+  0% {
+    scale: 0.8;
+  }
+  60% {
+    scale: 1.15;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+@keyframes swot-diamond-glow {
+  0%,
+  100% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.05;
+  }
+}
+
+.animate-swot-active {
+  animation:
+    swot-diamond-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+    swot-diamond-glow 3.4s 0.55s ease-in-out infinite;
+  will-change: scale;
+}
+
+/* Label "SWOT" di tengah belah ketupat: denyut halus. */
+@keyframes swot-center-pulse {
+  0%,
+  100% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.1;
+  }
+}
+
+.animate-swot-center {
+  animation: swot-center-pulse 3.6s ease-in-out infinite;
+  will-change: scale;
+}
+
+/* Kartu item di panel detail: muncul berurutan (stagger). */
+@keyframes swot-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-swot-item {
+  animation: swot-item-in 0.45s ease-out both;
+}
+
 /* Custom Scrollbar for SWOT cards */
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
@@ -144,4 +227,14 @@ body {
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.3);
+}
+
+/* Hormati preferensi pengguna yang mengurangi gerakan */
+@media (prefers-reduced-motion: reduce) {
+  .animate-swot-float,
+  .animate-swot-active,
+  .animate-swot-center,
+  .animate-swot-item {
+    animation: none !important;
+  }
 }
