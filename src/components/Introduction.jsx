@@ -193,7 +193,7 @@ export default function Introduction() {
       ref={sectionRef}
       className={`scroll-mt-16 relative overflow-hidden bg-[#fbf9ed] shadow-[0_12px_32px_rgba(15,23,42,0.12)] transition-all duration-700 ease-out ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
     >
-      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-2 z-0 hidden w-14 xl:block">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 z-0 hidden w-14 xl:block" style={{ left: 'calc(31.25vw - 20rem)' }}>
         <svg className="absolute top-[9%] h-[430px] w-full overflow-visible opacity-75" viewBox="0 0 56 430" fill="none">
           <path d="M30 0C54 42 8 75 30 116S51 190 28 230S9 300 31 344S46 395 26 430" stroke="#c4b5fd" strokeWidth="2" strokeDasharray="3 8" strokeLinecap="round" />
           <g fill="#bef264" stroke="#a3e635" strokeWidth="1">
@@ -210,7 +210,7 @@ export default function Introduction() {
         </svg>
       </div>
 
-      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-2 z-0 hidden w-14 xl:block">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 z-0 hidden w-14 xl:block" style={{ right: 'calc(18.75vw - 12.75rem)' }}>
         <svg className="absolute top-[13%] h-[430px] w-full overflow-visible opacity-75" viewBox="0 0 56 430" fill="none">
           <path d="M26 0C4 43 49 78 27 120S5 192 29 234S50 302 27 346S11 396 32 430" stroke="#bef264" strokeWidth="2" strokeDasharray="3 8" strokeLinecap="round" />
           <path d="M26 57L29 68L40 71L29 74L26 85L23 74L12 71L23 68Z" fill="#c4b5fd" />

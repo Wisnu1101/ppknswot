@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import logo from '../assets/logo.png'
 
 
@@ -78,6 +78,20 @@ const conclusionData = [
 
 export default function Conclusion() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [sectionVisible, setSectionVisible] = useState(false)
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return undefined
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setSectionVisible(entry.isIntersecting),
+      { threshold: 0.08 }
+    )
+    observer.observe(section)
+    return () => observer.disconnect()
+  }, [])
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev === conclusionData.length - 1 ? 0 : prev + 1))
@@ -90,18 +104,18 @@ export default function Conclusion() {
   const slide = conclusionData[currentIndex]
 
   return (
-    <section id="kesimpulan" className="scroll-mt-16 py-24 bg-[#a7f3d0] relative overflow-hidden">
-      {/* Background Decorative Patterns */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none" style={{
-        backgroundImage: 'repeating-linear-gradient(45deg, #0f172a 0, #0f172a 2px, transparent 2px, transparent 12px)'
-      }}></div>
+    <section ref={sectionRef} id="kesimpulan" className="conclusion-section scroll-mt-16 py-24 relative z-0 overflow-hidden">
 
 
       
       
-      <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8 relative z-10" style={{ zoom: 0.8 }}>
+      <div className="mx-auto max-w-6xl px-5 pt-6 sm:px-6 lg:px-8 relative z-10" style={{ zoom: 0.8 }}>
         
-        <div className="mb-12">
+        <div
+          data-conclusion-entrance
+          className={`relative z-20 mb-12 transition-all duration-500 ease-out ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          style={{ transitionDelay: sectionVisible ? '200ms' : '0ms' }}
+        >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 leading-tight mb-4">
             Kesimpulan
           </h2>
@@ -118,12 +132,16 @@ export default function Conclusion() {
         </div>
 
         {/* Retro Mac OS Window */}
-        <div className="relative mx-auto max-w-5xl">
+        <div
+          data-conclusion-entrance
+          className={`relative mx-auto max-w-5xl transition-all duration-700 ease-out ${sectionVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-16 scale-[0.97]'}`}
+          style={{ transitionDelay: sectionVisible ? '500ms' : '0ms' }}
+        >
           <img
             src={logo}
             alt=""
             aria-hidden="true"
-            className="pointer-events-none absolute -top-48 right-[8%] z-0 w-48 sm:w-60 lg:w-72 object-contain"
+            className="conclusion-mascot pointer-events-none absolute -top-48 right-[8%] z-0 w-48 sm:w-60 lg:w-72 object-contain"
           />
           <div className="relative z-10 rounded-lg border-[3px] border-slate-900 bg-[#f4f1e1] shadow-[12px_12px_0px_0px_#0f172a] overflow-hidden">
           
@@ -162,7 +180,7 @@ export default function Conclusion() {
                     key={currentIndex}
                     src={slide.image} 
                     alt={slide.fileName}
-                    className="w-full h-full object-cover animate-fade-in-up"
+                    className="w-full h-full object-cover conclusion-slide-enter"
                   />
                   {/* Filename overlay */}
                   <div className="absolute bottom-3 right-3 bg-white border-2 border-slate-900 px-3 py-1 font-bold text-xs shadow-[2px_2px_0px_0px_#0f172a] rotate-2">
@@ -195,7 +213,7 @@ export default function Conclusion() {
 
             {/* Right Side - Content & Buttons */}
             <div className="w-full lg:w-7/12 flex flex-col justify-between">
-              <div key={currentIndex} className="animate-fade-in-up">
+              <div key={currentIndex} className="conclusion-slide-enter">
                 <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-1 leading-tight">
                   {slide.title}
                 </h3>

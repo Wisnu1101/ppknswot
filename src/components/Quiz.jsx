@@ -260,7 +260,6 @@ function QuizQuestion({
   timeLeft,
 }) {
   const isLast = currentIndex === total - 1;
-
   return (
     <div className="p-5 sm:p-8 md:p-10">
       {/* Top Header: Progress + Counter + Timer */}
@@ -286,13 +285,18 @@ function QuizQuestion({
 
       {/* Answer Options */}
       <div className="space-y-3 mb-8">
-        {question.options.map((opt) => (
-          <AnswerOption
-            key={opt.label}
-            option={opt}
-            isSelected={userAnswer === opt.label}
-            onSelect={onSelectAnswer}
-          />
+        {question.options.map((opt, index) => (
+          <div
+            key={`${question.id}-${opt.label}`}
+            className="quiz-answer-option"
+            style={{ animationDelay: `${100 + index * 45}ms` }}
+          >
+            <AnswerOption
+              option={opt}
+              isSelected={userAnswer === opt.label}
+              onSelect={onSelectAnswer}
+            />
+          </div>
         ))}
       </div>
 
@@ -801,6 +805,13 @@ export default function Quiz() {
   const [timeLeft, setTimeLeft] = useState(QUIZ_INFO.timeLimit);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [contentMotion, setContentMotion] = useState('rest');
+  const [contentMotionProfile, setContentMotionProfile] = useState('stage');
+  const [isContentTransitioning, setIsContentTransitioning] = useState(false);
+  const transitionLockRef = React.useRef(false);
+  const transitionTimerRef = React.useRef(null);
+  const transitionReleaseTimerRef = React.useRef(null);
+  const motionFrameRef = React.useRef(null);
 
   // Scroll-triggered visibility for entrance animation
   const [sectionVisible, setSectionVisible] = useState(false);
@@ -816,6 +827,62 @@ export default function Quiz() {
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
+
+  React.useEffect(() => () => {
+    window.clearTimeout(transitionTimerRef.current);
+    window.clearTimeout(transitionReleaseTimerRef.current);
+    if (motionFrameRef.current !== null) window.cancelAnimationFrame(motionFrameRef.current);
+  }, []);
+
+  const runContentTransition = useCallback((exitMotion, enterMotion, update, exitDuration = 140, settleDuration = 280, motionProfile = 'stage') => {
+    if (transitionLockRef.current) return false;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      update();
+      setContentMotion('rest');
+      setContentMotionProfile('stage');
+      return true;
+    }
+
+    transitionLockRef.current = true;
+    setIsContentTransitioning(true);
+    setContentMotionProfile(motionProfile);
+    setContentMotion(exitMotion);
+
+    transitionTimerRef.current = window.setTimeout(() => {
+      update();
+      setContentMotion(enterMotion);
+
+      const settleTransition = () => {
+        setContentMotion('rest');
+        transitionReleaseTimerRef.current = window.setTimeout(() => {
+          transitionLockRef.current = false;
+          setIsContentTransitioning(false);
+          setContentMotionProfile('stage');
+        }, settleDuration);
+
+      };
+
+      if (motionProfile === 'question-forward') {
+        motionFrameRef.current = window.requestAnimationFrame(() => {
+          motionFrameRef.current = window.requestAnimationFrame(settleTransition);
+        });
+      } else {
+        transitionTimerRef.current = window.setTimeout(settleTransition, 20);
+      }
+    }, exitDuration);
+
+    return true;
+  }, []);
+
+  const transitionToStage = (nextStage, beforeChange) => runContentTransition(
+    'stage-exit',
+    'stage-enter',
+    () => {
+      beforeChange?.();
+      setStage(nextStage);
+    }
+  );
 
   const questions = PPKN_QUESTIONS;
 
@@ -855,10 +922,12 @@ export default function Quiz() {
 
   // Finish quiz handler
   const handleFinishQuiz = useCallback(() => {
-    setIsTimerRunning(false);
-    setElapsedSeconds(QUIZ_INFO.timeLimit - timeLeft);
-    setStage('results');
-  }, [timeLeft]);
+    runContentTransition('stage-exit', 'stage-enter', () => {
+      setIsTimerRunning(false);
+      setElapsedSeconds(QUIZ_INFO.timeLimit - timeLeft);
+      setStage('results');
+    });
+  }, [timeLeft, runContentTransition]);
 
   // Timer interval effect
   useEffect(() => {
@@ -880,12 +949,14 @@ export default function Quiz() {
 
   // Start Quiz
   const handleStartQuiz = () => {
-    setUserAnswers({});
-    setCurrentIndex(0);
-    setTimeLeft(QUIZ_INFO.timeLimit);
-    setElapsedSeconds(0);
-    setIsTimerRunning(true);
-    setStage('quiz');
+    runContentTransition('stage-exit', 'stage-enter', () => {
+      setUserAnswers({});
+      setCurrentIndex(0);
+      setTimeLeft(QUIZ_INFO.timeLimit);
+      setElapsedSeconds(0);
+      setIsTimerRunning(true);
+      setStage('quiz');
+    });
   };
 
   // Change answer selection
@@ -900,25 +971,29 @@ export default function Quiz() {
   // Navigation handlers
   const handleNext = () => {
     if (currentIndex < questions.length - 1) {
-      setCurrentIndex((prev) => prev + 1);
+      runContentTransition('question-exit-forward', 'question-enter-forward', () => {
+        setCurrentIndex((prev) => prev + 1);
+      }, 150, 280, 'question-forward');
     }
   };
 
   const handlePrev = () => {
     if (currentIndex > 0) {
-      setCurrentIndex((prev) => prev - 1);
+      runContentTransition('question-exit-backward', 'question-enter-backward', () => {
+        setCurrentIndex((prev) => prev - 1);
+      }, 170, 380, 'question');
     }
   };
 
   // Return to home / section top
   const handleBackToHome = () => {
-    setStage('intro');
-    setIsTimerRunning(false);
-    setUserAnswers({});
-    const quizElem = document.getElementById('quiz');
-    if (quizElem) {
-      quizElem.scrollIntoView({ behavior: 'smooth' });
-    }
+    runContentTransition('home-exit', 'stage-enter', () => {
+      setIsTimerRunning(false);
+      setUserAnswers({});
+      setStage('intro');
+      const quizElem = document.getElementById('quiz');
+      if (quizElem) quizElem.scrollIntoView({ behavior: 'smooth' });
+    });
   };
 
   return (
@@ -931,7 +1006,7 @@ export default function Quiz() {
       {/* LEFT DECORATIONS (Dotted curvy line + floating flowers & stars)   */}
       {/* ----------------------------------------------------------------- */}
       {/* Vertical dotted curvy line with flower & sparkles (matching Intro) */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-2 z-0 hidden w-14 xl:block">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-[8%] z-0 hidden w-14 xl:left-[9%] 2xl:left-[13%] xl:block">
         <svg className="absolute top-[8%] h-[560px] w-full overflow-visible opacity-80" viewBox="0 0 56 560" fill="none">
           <path d="M30 0C54 55 8 98 30 150S51 245 28 300S9 390 31 450S46 515 26 560" stroke="#c4b5fd" strokeWidth="2.5" strokeDasharray="4 8" strokeLinecap="round" />
           {/* Flower on curvy line */}
@@ -953,7 +1028,7 @@ export default function Quiz() {
       {/* Floating flower - Top Left */}
       <div
         aria-hidden="true"
-        className={`pointer-events-none absolute top-12 left-4 sm:left-8 lg:left-14 z-0 animate-icon-slow hidden sm:block transition-all duration-700 ease-out ${
+        className={`pointer-events-none absolute top-12 left-4 sm:left-[6%] lg:left-[8%] xl:left-[11%] 2xl:left-[15%] z-0 animate-icon-slow hidden sm:block transition-all duration-700 ease-out ${
           sectionVisible ? 'opacity-90 translate-x-0' : 'opacity-0 -translate-x-10'
         }`}
         style={{ transitionDelay: sectionVisible ? '150ms' : '0ms' }}
@@ -975,7 +1050,7 @@ export default function Quiz() {
       {/* Floating 4-point star - Mid Left */}
       <div
         aria-hidden="true"
-        className={`pointer-events-none absolute top-1/2 -translate-y-16 left-3 sm:left-6 lg:left-12 z-0 animate-float-1 hidden sm:block transition-all duration-700 ease-out ${
+        className={`pointer-events-none absolute top-1/2 -translate-y-16 left-4 sm:left-[6%] lg:left-[8%] xl:left-[11%] 2xl:left-[15%] z-0 animate-float-1 hidden sm:block transition-all duration-700 ease-out ${
           sectionVisible ? 'opacity-90 translate-x-0' : 'opacity-0 -translate-x-12'
         }`}
         style={{ transitionDelay: sectionVisible ? '250ms' : '0ms' }}
@@ -989,7 +1064,7 @@ export default function Quiz() {
       {/* Floating Lime 5-petal flower - Lower Left */}
       <div
         aria-hidden="true"
-        className={`pointer-events-none absolute bottom-24 left-4 sm:left-8 lg:left-14 z-0 animate-float-2 hidden sm:block transition-all duration-700 ease-out ${
+        className={`pointer-events-none absolute bottom-24 left-4 sm:left-[6%] lg:left-[8%] xl:left-[11%] 2xl:left-[15%] z-0 animate-float-2 hidden sm:block transition-all duration-700 ease-out ${
           sectionVisible ? 'opacity-90 translate-x-0' : 'opacity-0 -translate-x-10'
         }`}
         style={{ transitionDelay: sectionVisible ? '350ms' : '0ms' }}
@@ -1008,7 +1083,7 @@ export default function Quiz() {
       {/* RIGHT DECORATIONS (Dotted curvy line + floating flowers & stars)  */}
       {/* ----------------------------------------------------------------- */}
       {/* Vertical dotted curvy line with flower & sparkles (matching Intro) */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-2 z-0 hidden w-14 xl:block">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-[8%] z-0 hidden w-14 xl:right-[9%] 2xl:right-[13%] xl:block">
         <svg className="absolute top-[10%] h-[560px] w-full overflow-visible opacity-80" viewBox="0 0 56 560" fill="none">
           <path d="M26 0C4 55 49 100 27 155S5 250 29 305S50 395 27 450S11 515 32 560" stroke="#bef264" strokeWidth="2.5" strokeDasharray="4 8" strokeLinecap="round" />
           <path d="M26 70L29 81L40 84L29 87L26 98L23 87L12 84L23 81Z" fill="#c4b5fd" />
@@ -1029,7 +1104,7 @@ export default function Quiz() {
       {/* Floating Sparkle Star - Top Right */}
       <div
         aria-hidden="true"
-        className={`pointer-events-none absolute top-16 right-4 sm:right-8 lg:right-14 z-0 animate-float-3 hidden sm:block transition-all duration-700 ease-out ${
+        className={`pointer-events-none absolute top-16 right-4 sm:right-[6%] lg:right-[8%] xl:right-[11%] 2xl:right-[15%] z-0 animate-float-3 hidden sm:block transition-all duration-700 ease-out ${
           sectionVisible ? 'opacity-90 translate-x-0' : 'opacity-0 translate-x-10'
         }`}
         style={{ transitionDelay: sectionVisible ? '150ms' : '0ms' }}
@@ -1041,7 +1116,7 @@ export default function Quiz() {
       </div>
 
       {/* Floating 6-petal Flower - Mid Right */}
-      <div aria-hidden="true" className="pointer-events-none absolute top-1/2 -translate-y-10 right-3 sm:right-6 lg:right-12 z-0 animate-icon-drift opacity-90 hidden sm:block">
+      <div aria-hidden="true" className="pointer-events-none absolute top-1/2 -translate-y-10 right-4 sm:right-[6%] lg:right-[8%] xl:right-[11%] 2xl:right-[15%] z-0 animate-icon-drift opacity-90 hidden sm:block">
         <svg width="40" height="40" viewBox="0 0 40 40" fill="none" className="drop-shadow-sm">
           <circle cx="20" cy="10" r="6" fill="#fecdd3" />
           <circle cx="28.6" cy="15" r="6" fill="#fecdd3" />
@@ -1054,7 +1129,7 @@ export default function Quiz() {
       </div>
 
       {/* Floating Pastel Sunburst / Sparkle - Lower Right */}
-      <div aria-hidden="true" className="pointer-events-none absolute bottom-20 right-4 sm:right-8 lg:right-14 z-0 animate-icon-slow opacity-90 hidden sm:block">
+      <div aria-hidden="true" className="pointer-events-none absolute bottom-20 right-4 sm:right-[6%] lg:right-[8%] xl:right-[11%] 2xl:right-[15%] z-0 animate-icon-slow opacity-90 hidden sm:block">
         <svg width="42" height="42" viewBox="0 0 64 64" fill="none" stroke="#f59e0b" strokeWidth="3" strokeLinecap="round">
           <line x1="32" y1="8" x2="32" y2="20" />
           <line x1="32" y1="44" x2="32" y2="56" />
@@ -1133,6 +1208,10 @@ export default function Quiz() {
         >
           <div className="h-3 w-full bg-[#bef264] border-b-2 border-slate-900" />
 
+          <div
+            className={`quiz-content-motion ${contentMotionProfile.startsWith('question') ? 'quiz-question-motion' : ''} ${contentMotionProfile === 'question-forward' ? 'quiz-question-motion--forward' : ''} ${contentMotion === 'rest' ? '' : `quiz-content-motion--${contentMotion}`}`}
+            data-transitioning={isContentTransitioning}
+          >
           {stage === 'intro' && <QuizIntro onStart={handleStartQuiz} />}
 
           {stage === 'quiz' && (
@@ -1152,7 +1231,7 @@ export default function Quiz() {
           {stage === 'results' && (
             <QuizResults
               stats={stats}
-              onReview={() => setStage('review')}
+              onReview={() => transitionToStage('review')}
               onRetry={handleStartQuiz}
               onHome={handleBackToHome}
             />
@@ -1164,11 +1243,10 @@ export default function Quiz() {
               userAnswers={userAnswers}
               stats={stats}
               onSelectQuestion={(idx) => {
-                setCurrentIndex(idx);
-                setStage('explanation');
+                transitionToStage('explanation', () => setCurrentIndex(idx));
               }}
               onHome={handleBackToHome}
-              onResults={() => setStage('results')}
+              onResults={() => transitionToStage('results')}
             />
           )}
 
@@ -1180,9 +1258,10 @@ export default function Quiz() {
               total={questions.length}
               onPrev={handlePrev}
               onNext={handleNext}
-              onBackToGrid={() => setStage('review')}
+              onBackToGrid={() => transitionToStage('review')}
             />
           )}
+          </div>
         </div>
       </div>
     </section>

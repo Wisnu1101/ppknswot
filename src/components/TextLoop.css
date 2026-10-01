@@ -11,6 +11,8 @@
 }
 
 .text-loop-text {
+  position: relative;
+  z-index: 1;
   user-select: none;
 }
 
@@ -21,8 +23,16 @@
 
 .text-loop--banner {
   height: clamp(120px, 14vw, 176px);
+  transform: translateY(98px);
+  overflow: visible;
 }
 
 .text-loop--banner .text-loop-svg {
   height: 100%;
+}
+
+@media (max-width: 639px) {
+  .text-loop--banner {
+    transform: translateY(89px);
+  }
 }

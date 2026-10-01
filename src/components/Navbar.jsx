@@ -65,7 +65,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 z-50 w-full border-b-2 border-slate-900 bg-[#fbf9ed] transition-all">
+    <nav className="fixed top-0 left-0 z-[100] w-full border-b-2 border-slate-900 bg-[#fbf9ed] transition-all">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Brand with Mascot Logo */}

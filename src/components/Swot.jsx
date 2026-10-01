@@ -161,11 +161,19 @@ const swotData = {
   }
 }
 
+const swotTabOrder = ['S', 'W', 'O', 'T']
+
 export default function Swot() {
   const [activeTab, setActiveTab] = useState(null)
 
   const handleTabClick = (tab) => {
     setActiveTab(activeTab === tab ? null : tab)
+  }
+
+  const navigateTab = (direction) => {
+    const currentIndex = swotTabOrder.indexOf(activeTab)
+    const nextIndex = (currentIndex + direction + swotTabOrder.length) % swotTabOrder.length
+    setActiveTab(swotTabOrder[nextIndex])
   }
 
   // Animasi belah ketupat:
@@ -184,8 +192,36 @@ export default function Swot() {
   const animDelay = (tab) => (activeTab ? undefined : idleDelays[tab])
 
   return (
-    <section id="swot" className="scroll-mt-16 pt-16 pb-12 bg-grid-paper">
-      <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
+    <section id="swot" className="relative isolate scroll-mt-16 pt-16 pb-12 bg-grid-paper">
+      <div className="swot-decorations" aria-hidden="true">
+        <svg className="swot-ornament swot-ornament--sparkle swot-ornament--top-left swot-ornament--float" viewBox="0 0 40 40">
+          <path d="M20 0 24.5 15.5 40 20 24.5 24.5 20 40 15.5 24.5 0 20 15.5 15.5Z" fill="currentColor" />
+        </svg>
+        <svg className="swot-ornament swot-ornament--outline swot-ornament--top-star swot-ornament--drift" viewBox="0 0 40 40">
+          <path d="m20 3 5 11.5 12.5 1-9.5 8 3 12-11-6.5-11 6.5 3-12-9.5-8 12.5-1Z" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+        </svg>
+        <span className="swot-ornament swot-ornament--dots swot-ornament--left-dots swot-ornament--pulse" />
+        <svg className="swot-ornament swot-ornament--outline swot-ornament--left-star" viewBox="0 0 40 40">
+          <path d="M20 2 24.7 14.8 38 15.5 27.7 23.8 31.2 37 20 29.6 8.8 37l3.5-13.2L2 15.5l13.3-.7Z" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinejoin="round" />
+        </svg>
+        <span className="swot-ornament swot-ornament--blob swot-ornament--left-blob swot-ornament--drift" />
+        <span className="swot-ornament swot-ornament--ring swot-ornament--left-ring swot-ornament--float" />
+        <svg className="swot-ornament swot-ornament--outline swot-ornament--right-star swot-ornament--pulse" viewBox="0 0 40 40">
+          <path d="m20 3 5 11.5 12.5 1-9.5 8 3 12-11-6.5-11 6.5 3-12-9.5-8 12.5-1Z" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+        </svg>
+        <span className="swot-ornament swot-ornament--circle swot-ornament--right-circle swot-ornament--float" />
+        <svg className="swot-ornament swot-ornament--sparkle swot-ornament--right-sparkle swot-ornament--drift" viewBox="0 0 40 40">
+          <path d="M20 0 24.5 15.5 40 20 24.5 24.5 20 40 15.5 24.5 0 20 15.5 15.5Z" fill="currentColor" />
+        </svg>
+        <span className="swot-ornament swot-ornament--dots swot-ornament--right-dots swot-ornament--pulse" />
+        <span className="swot-ornament swot-ornament--blob swot-ornament--right-blob swot-ornament--float" />
+        <svg className="swot-ornament swot-ornament--sparkle swot-ornament--bottom-left swot-ornament--pulse" viewBox="0 0 40 40">
+          <path d="M20 0 24.5 15.5 40 20 24.5 24.5 20 40 15.5 24.5 0 20 15.5 15.5Z" fill="currentColor" />
+        </svg>
+        <span className="swot-ornament swot-ornament--ring swot-ornament--bottom-right swot-ornament--drift" />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
         <div className="mb-14 sm:mb-16 text-center" style={{ zoom: 0.9 }}>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 leading-tight mb-4">
             Analisis <span className="text-purple-700">SWOT</span>
@@ -205,7 +241,7 @@ export default function Swot() {
         {/* When no tab is selected: diamond centered. When tab selected: diamond left + detail right */}
         <div className={cn(
           'flex items-center justify-center transition-all duration-500',
-          activeTab ? 'flex-col lg:flex-row gap-16 lg:gap-24' : 'flex-col gap-8'
+          activeTab ? 'flex-col lg:flex-row gap-16 lg:gap-12' : 'flex-col gap-8'
         )}>
           {/* SWOT Diamond Grid */}
           <div className={cn(
@@ -305,7 +341,18 @@ export default function Swot() {
 
           {/* Card Content Area — only shown when a tab is selected */}
           {activeTab && (
-            <div className="w-full max-w-2xl min-h-[400px] animate-fade-in-up" style={{ zoom: 0.9 }}>
+            <div className="flex w-full min-w-0 max-w-3xl min-h-[400px] items-center gap-2 sm:gap-3 animate-fade-in-up" style={{ zoom: 0.9 }}>
+              <button
+                type="button"
+                onClick={() => navigateTab(-1)}
+                aria-label="Previous SWOT category"
+                className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full border-2 border-slate-900 bg-[#FAF8EC] text-slate-900 shadow-[3px_3px_0px_0px_#0f172a] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_#0f172a] active:translate-x-1 active:translate-y-1 active:shadow-none focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-500/50"
+              >
+                <svg aria-hidden="true" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+              </button>
+              <div className="w-full min-w-0 max-w-2xl flex-1">
               <div 
                 key={activeTab}
                 className={cn(
@@ -351,6 +398,17 @@ export default function Swot() {
                   ))}
                 </div>
               </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => navigateTab(1)}
+                aria-label="Next SWOT category"
+                className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full border-2 border-slate-900 bg-[#FAF8EC] text-slate-900 shadow-[3px_3px_0px_0px_#0f172a] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_#0f172a] active:translate-x-1 active:translate-y-1 active:shadow-none focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-500/50"
+              >
+                <svg aria-hidden="true" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </button>
             </div>
           )}
         </div>
