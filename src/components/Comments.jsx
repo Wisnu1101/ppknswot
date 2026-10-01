@@ -472,23 +472,6 @@ export default function Comments() {
           </div>
         </div>
 
-        {/* ================= Mode Demo Banner ================= */}
-        {!isSupabaseConfigured && (
-          <div className="mb-6 flex items-start gap-3 rounded-2xl border-2 border-slate-900 bg-[#fef9c3] px-4 py-3 shadow-[4px_4px_0px_0px_#0f172a]">
-            <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-lg border-2 border-slate-900 bg-amber-300 text-xs font-black">
-              !
-            </span>
-            <p className="text-xs font-bold leading-relaxed text-slate-800">
-              <span className="font-black">Mode demo.</span> Database belum tersambung, jadi
-              komentar hanya tersimpan di browser ini. Ikuti panduan{' '}
-              <code className="rounded bg-slate-900 px-1 py-0.5 font-mono text-[11px] text-[#bef264]">
-                SUPABASE_SETUP.md
-              </code>{' '}
-              agar komentar terlihat oleh semua pengunjung.
-            </p>
-          </div>
-        )}
-
         {/* ================= Pesan Sukses / Notifikasi Floating ================= */}
         {notice && (
           <div className="mb-6 flex items-center justify-between gap-3 rounded-2xl border-2 border-slate-900 bg-[#bef264] px-4 py-3 shadow-[4px_4px_0px_0px_#0f172a] animate-fade-in-up">
