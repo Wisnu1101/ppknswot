@@ -756,4 +756,87 @@ body {
   animation: new-comment-pop 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* ------------------------------------------------------------------ */
+/* About Us — Marquee Foto Anggota                                    */
+/* ------------------------------------------------------------------ */
+/* Foto berjalan otomatis ke samping. Track berisi 2 salinan daftar   */
+/* identik, jadi geser -50% menghasilkan loop yang mulus tanpa jeda.  */
+.about-marquee {
+  --about-marquee-duration: 42s;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
+}
+
+.about-marquee-track {
+  animation: about-marquee-scroll var(--about-marquee-duration) linear infinite;
+  will-change: transform;
+}
+
+/* Berhenti saat kursor berada di area marquee (biar mudah diklik) */
+.about-marquee:hover .about-marquee-track,
+.about-marquee-track.is-paused {
+  animation-play-state: paused;
+}
+
+/* Fokus keyboard pada salah satu kartu juga menghentikan gerakan */
+.about-marquee-track:focus-within {
+  animation-play-state: paused;
+}
+
+@keyframes about-marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Kartu naik-turun (bob) sambil sedikit bergoyang, di-stagger per kartu */
+.about-bob {
+  animation: about-bob 3.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes about-bob {
+  0%,
+  100% {
+    transform: translateY(6px) rotate(-0.6deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.6deg);
+  }
+}
+
+/* Saat kursor berhenti di marquee, hentikan bob juga biar foto tenang */
+.about-marquee:hover .about-bob,
+.about-marquee-track.is-paused .about-bob {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-marquee-track,
+  .about-bob {
+    animation: none;
+  }
+
+  .about-marquee {
+    -webkit-mask-image: none;
+    mask-image: none;
+    overflow-x: auto;
+  }
+}
+
 

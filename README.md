@@ -25,10 +25,17 @@ npm run lint     # jalankan linter
 .
 ├── index.html
 ├── vite.config.js
+├── public/
+│   └── img/               # gambar konten (mis. kesimpulan-*.jpeg)
 └── src/
     ├── main.jsx
     ├── App.jsx
     ├── index.css          # konfigurasi dasar Tailwind (@theme)
+    ├── assets/
+    │   └── anggota/       # foto anggota About Us (format bebas, auto-detect)
+    ├── data/
+    │   ├── members.js     # data anggota Kelompok 1 + auto-detect foto
+    │   └── getInitials.js # util inisial nama (cadangan bila foto tidak ada)
     └── components/
         ├── Navbar.jsx     # fixed top-0
         ├── Hero.jsx
@@ -36,9 +43,13 @@ npm run lint     # jalankan linter
         ├── Swot.jsx
         ├── Conclusion.jsx
         ├── Quiz.jsx
-        ├── AboutUs.jsx
+        ├── AboutUs.jsx    # marquee foto anggota: grayscale → warna saat diklik
         └── Footer.jsx
 ```
+
+> **Foto anggota:** taruh di `src/assets/anggota/` dengan nama `anggota-<nomor>`
+> (mis. `anggota-1.jpg`). Ekstensi apa pun didukung (`.jpg .jpeg .png .webp .avif
+> .gif .bmp .svg`) dan dideteksi otomatis — tidak perlu mengubah kode.
 
 ## Catatan Pengembangan
 
