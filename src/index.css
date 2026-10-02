@@ -759,10 +759,8 @@ body {
 /* ------------------------------------------------------------------ */
 /* About Us — Marquee Foto Anggota                                    */
 /* ------------------------------------------------------------------ */
-/* Foto berjalan otomatis ke samping. Track berisi 2 salinan daftar   */
-/* identik, jadi geser -50% menghasilkan loop yang mulus tanpa jeda.  */
+/* Track movement is driven by measured carousel dimensions in AboutUs. */
 .about-marquee {
-  --about-marquee-duration: 42s;
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0,
@@ -780,28 +778,7 @@ body {
 }
 
 .about-marquee-track {
-  animation: about-marquee-scroll var(--about-marquee-duration) linear infinite;
   will-change: transform;
-}
-
-/* Berhenti saat kursor berada di area marquee (biar mudah diklik) */
-.about-marquee:hover .about-marquee-track,
-.about-marquee-track.is-paused {
-  animation-play-state: paused;
-}
-
-/* Fokus keyboard pada salah satu kartu juga menghentikan gerakan */
-.about-marquee-track:focus-within {
-  animation-play-state: paused;
-}
-
-@keyframes about-marquee-scroll {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
 }
 
 /* Kartu naik-turun (bob) sambil sedikit bergoyang, di-stagger per kartu */
@@ -820,14 +797,13 @@ body {
   }
 }
 
-/* Saat kursor berhenti di marquee, hentikan bob juga biar foto tenang */
-.about-marquee:hover .about-bob,
-.about-marquee-track.is-paused .about-bob {
+/* Stop only the hovered card's bob; navigation-button hover keeps the carousel moving. */
+.about-member:hover .about-bob,
+.about-member:focus .about-bob {
   animation-play-state: paused;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .about-marquee-track,
   .about-bob {
     animation: none;
   }
@@ -838,5 +814,3 @@ body {
     overflow-x: auto;
   }
 }
-
-

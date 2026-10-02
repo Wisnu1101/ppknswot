@@ -1,40 +1,55 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { members, memberAccents, getInitials } from '../data/members'
+import { Cursor } from './ui/cursor'
+
+const MEMBER_ROLE_LABELS = {
+  3: 'Front-End (Conceptor)',
+  5: 'Front-End (Detailing)',
+  4: 'Front-End & Back-End',
+}
+
+function getMemberRoleLabel(member) {
+  return MEMBER_ROLE_LABELS[member.id] ?? 'Pemateri'
+}
+
+function getLoopedTrackPosition(distance, groupWidth) {
+  if (!groupWidth) return 0
+  let loopDistance = distance % groupWidth
+  if (loopDistance > 0) loopDistance -= groupWidth
+  return -groupWidth + loopDistance
+}
 
 // ---------------------------------------------------------------------------
 // Kartu anggota (neo-brutalist)
 // - Default: hitam-putih (grayscale)
-// - Sesudah diklik: berwarna penuh & ditandai sebagai aktif
+// - Hover: penuh warna, tanpa click untuk mengaktifkan
 // ---------------------------------------------------------------------------
-function MemberCard({ member, accent, index, isActive, onActivate }) {
+function MemberCard({ member, accent, index, isHovered, onHoverStart, onHoverEnd }) {
   const [imageFailed, setImageFailed] = useState(false)
   const showFallback = imageFailed || !member.photo
 
   return (
-    <button
-      type="button"
-      onClick={() => onActivate(member.id)}
-      aria-pressed={isActive}
-      aria-label={`Tampilkan foto ${member.name}`}
+    <div
       className={`about-member group relative mr-5 w-[190px] shrink-0 cursor-pointer text-left transition-transform duration-500 ease-out sm:mr-6 sm:w-[220px] ${
-        isActive ? '-translate-y-2' : 'hover:-translate-y-1'
+        isHovered ? '-translate-y-2' : 'hover:-translate-y-1'
       }`}
       style={{ rotate: `${index % 2 === 0 ? -1.6 : 1.6}deg` }}
+      onMouseEnter={() => onHoverStart(member.id)}
+      onMouseLeave={onHoverEnd}
+      onFocus={() => onHoverStart(member.id)}
+      onBlur={onHoverEnd}
+      tabIndex={0}
     >
-      {/* Wrapper animasi naik-turun (bob), di-stagger per kartu */}
       <div
         className="about-bob"
         style={{ animationDelay: `${(index % 7) * -0.45}s` }}
       >
-        {/* Frame foto */}
         <div
           className={`relative rounded-2xl border-2 border-slate-900 bg-white p-2 transition-all duration-500 ${
-            isActive
-              ? 'shadow-[7px_7px_0px_0px_#0f172a]'
-              : 'shadow-[4px_4px_0px_0px_#0f172a]'
+            isHovered ? 'shadow-[7px_7px_0px_0px_#0f172a]' : 'shadow-[4px_4px_0px_0px_#0f172a]'
           }`}
         >
-          {/* Selotip dekorasi */}
           <span
             aria-hidden="true"
             className="absolute -top-2.5 left-1/2 z-20 h-5 w-14 -translate-x-1/2 rotate-2 rounded-[2px] border border-slate-400/60 bg-white/70 backdrop-blur-sm"
@@ -55,46 +70,30 @@ function MemberCard({ member, accent, index, isActive, onActivate }) {
                 draggable="false"
                 onError={() => setImageFailed(true)}
                 style={{ objectPosition: member.id === 6 ? '60% center' : 'center' }}
-                className={`h-full w-full object-cover transition-[filter,transform] duration-700 ease-out ${
-                  isActive
-                    ? 'scale-105 grayscale-0'
-                    : 'scale-100 grayscale contrast-[1.05] group-hover:contrast-100'
+                className={`h-full w-full object-cover transition-[filter,transform,opacity] duration-700 ease-out ${
+                  isHovered ? 'scale-105 grayscale-0' : 'scale-100 grayscale contrast-[1.05] group-hover:contrast-100'
                 }`}
               />
             )}
 
-            {/* Overlay gelap lembut saat belum aktif */}
             <div
               aria-hidden="true"
               className={`pointer-events-none absolute inset-0 bg-slate-900/25 transition-opacity duration-500 ${
-                isActive ? 'opacity-0' : 'opacity-100 group-hover:opacity-60'
+                isHovered ? 'opacity-0' : 'opacity-100 group-hover:opacity-60'
               }`}
             />
 
-            {/* Badge nomor */}
             <span className="absolute left-2 top-2 z-10 flex h-7 w-7 items-center justify-center rounded-lg border-2 border-slate-900 bg-[#fbf9ed] text-[11px] font-black text-slate-900 shadow-[2px_2px_0px_0px_#0f172a]">
               {String(member.id).padStart(2, '0')}
-            </span>
-
-            {/* Badge status aktif */}
-            <span
-              className={`absolute right-2 top-2 z-10 rounded-lg border-2 border-slate-900 px-2 py-0.5 text-[10px] font-black uppercase tracking-wide transition-all duration-300 ${
-                isActive
-                  ? 'translate-y-0 bg-[#bef264] text-slate-950 opacity-100 shadow-[2px_2px_0px_0px_#0f172a]'
-                  : '-translate-y-1 opacity-0'
-              }`}
-            >
-              Aktif
             </span>
           </div>
         </div>
 
-        {/* Nama & peran */}
         <div className="mt-2.5 px-1">
           <div className="flex items-center gap-2">
             <span
               className={`h-2.5 w-2.5 shrink-0 rounded-sm border border-slate-900 transition-colors duration-300 ${
-                isActive ? accent.solid : 'bg-slate-300'
+                isHovered ? accent.solid : 'bg-slate-300'
               }`}
             />
             <p className="line-clamp-2 text-sm font-black leading-snug text-slate-900">
@@ -106,17 +105,31 @@ function MemberCard({ member, accent, index, isActive, onActivate }) {
           </p>
         </div>
       </div>
-    </button>
+    </div>
   )
 }
 
 export default function AboutUs() {
   const [sectionVisible, setSectionVisible] = useState(false)
-  const [activeId, setActiveId] = useState(null)
+  const [hoveredMemberId, setHoveredMemberId] = useState(null)
+  const [cursorEnabled, setCursorEnabled] = useState(false)
+  const carouselRef = useRef(null)
   const trackRef = useRef(null)
+  const firstGroupRef = useRef(null)
   const sectionRef = useRef(null)
+  const hoveredMemberIdRef = useRef(null)
+  const distanceRef = useRef(0)
+  const groupWidthRef = useRef(0)
+  const cardStrideRef = useRef(0)
+  const manualAnimationRef = useRef(null)
+  const navigationQueueRef = useRef([])
+  const reducedMotionRef = useRef(false)
 
-  // Duplikat daftar supaya marquee bisa berputar mulus (loop tak terbatas)
+  const hoveredMember = useMemo(
+    () => members.find((member) => member.id === hoveredMemberId) ?? null,
+    [hoveredMemberId]
+  )
+
   const loopedMembers = useMemo(
     () => members.map((member, index) => ({ member, accent: memberAccents[index % memberAccents.length] })),
     []
@@ -134,21 +147,124 @@ export default function AboutUs() {
     return () => observer.disconnect()
   }, [])
 
-  // Klik di luar kartu -> lepas semua pilihan (kembali hitam-putih)
   useEffect(() => {
-    if (!activeId) return undefined
-    const handlePointerDown = (event) => {
-      if (trackRef.current && !trackRef.current.contains(event.target)) {
-        setActiveId(null)
-      }
-    }
-    document.addEventListener('pointerdown', handlePointerDown)
-    return () => document.removeEventListener('pointerdown', handlePointerDown)
-  }, [activeId])
+    if (typeof window === 'undefined') return undefined
 
-  const handleActivate = (id) => {
-    setActiveId((current) => (current === id ? null : id))
+    const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)')
+    const updateCursorState = () => setCursorEnabled(mediaQuery.matches)
+
+    updateCursorState()
+    mediaQuery.addEventListener?.('change', updateCursorState)
+
+    return () => mediaQuery.removeEventListener?.('change', updateCursorState)
+  }, [])
+
+  useEffect(() => {
+    const track = trackRef.current
+    const firstGroup = firstGroupRef.current
+    if (!track || !firstGroup) return undefined
+
+    let frameId
+    let previousTime
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)')
+
+    const measureCarousel = () => {
+      const cards = firstGroup.querySelectorAll('.about-member')
+      // offsetWidth uses the same CSS-pixel coordinate space as offsetLeft and
+      // translate3d, including when the About Us content is scaled with `zoom`.
+      const groupWidth = firstGroup.offsetWidth
+      if (!groupWidth) return
+
+      const cardStride = cards.length > 1
+        ? cards[1].offsetLeft - cards[0].offsetLeft
+        : cards[0]?.offsetWidth ?? 0
+
+      groupWidthRef.current = groupWidth
+      cardStrideRef.current = cardStride
+      track.style.transform = `translate3d(${getLoopedTrackPosition(distanceRef.current, groupWidth)}px, 0, 0)`
+    }
+
+    const updateMotionPreference = () => {
+      reducedMotionRef.current = motionPreference.matches
+    }
+
+    const getManualPosition = (time) => {
+      const animation = manualAnimationRef.current
+      if (!animation) return distanceRef.current
+      const progress = Math.min((time - animation.startTime) / animation.duration, 1)
+      const easedProgress = 0.5 - Math.cos(progress * Math.PI) / 2
+      return animation.from + (animation.to - animation.from) * easedProgress
+    }
+
+    const animate = (time) => {
+      const elapsed = previousTime === undefined ? 0 : Math.min(time - previousTime, 50)
+      previousTime = time
+
+      const manualAnimation = manualAnimationRef.current
+      if (manualAnimation) {
+        distanceRef.current = getManualPosition(time)
+        if (time - manualAnimation.startTime >= manualAnimation.duration) {
+          distanceRef.current = manualAnimation.to
+          manualAnimationRef.current = null
+        }
+      }
+
+      if (!manualAnimationRef.current && navigationQueueRef.current.length > 0) {
+        const direction = navigationQueueRef.current.shift()
+        const from = distanceRef.current
+        const to = from + (direction === 'right' ? -1 : 1) * cardStrideRef.current
+        manualAnimationRef.current = {
+          from,
+          to,
+          startTime: time,
+          duration: 500,
+        }
+      } else if (!manualAnimationRef.current && !hoveredMemberIdRef.current && !reducedMotionRef.current) {
+        distanceRef.current -= (groupWidthRef.current / 42000) * elapsed
+      }
+
+      track.style.transform = `translate3d(${getLoopedTrackPosition(distanceRef.current, groupWidthRef.current)}px, 0, 0)`
+      frameId = window.requestAnimationFrame(animate)
+    }
+
+    measureCarousel()
+    updateMotionPreference()
+    const resizeObserver = new ResizeObserver(measureCarousel)
+    resizeObserver.observe(firstGroup)
+    motionPreference.addEventListener?.('change', updateMotionPreference)
+    frameId = window.requestAnimationFrame(animate)
+
+    return () => {
+      window.cancelAnimationFrame(frameId)
+      resizeObserver.disconnect()
+      motionPreference.removeEventListener?.('change', updateMotionPreference)
+    }
+  }, [])
+
+  const handleNavigation = (direction) => {
+    const directionOffset = direction === 'right' ? -1 : 1
+    if (reducedMotionRef.current) {
+      distanceRef.current += directionOffset * cardStrideRef.current
+      if (trackRef.current) {
+        trackRef.current.style.transform = `translate3d(${getLoopedTrackPosition(distanceRef.current, groupWidthRef.current)}px, 0, 0)`
+      }
+      return
+    }
+
+    navigationQueueRef.current.push(direction)
   }
+
+  const handleMemberHover = (id) => {
+    hoveredMemberIdRef.current = id
+    setHoveredMemberId(id)
+  }
+
+  const handleMemberLeave = () => {
+    hoveredMemberIdRef.current = null
+    setHoveredMemberId(null)
+  }
+
+  const dynamicCursorLabel = hoveredMember ? getMemberRoleLabel(hoveredMember) : 'Pemateri'
 
   return (
     <section
@@ -156,8 +272,14 @@ export default function AboutUs() {
       ref={sectionRef}
       className="scroll-mt-16 relative overflow-hidden bg-[#fbf9ed] py-20 sm:py-24"
     >
+      <Cursor
+        parentRef={carouselRef}
+        attachToParent
+        label={dynamicCursorLabel}
+        visible={Boolean(hoveredMember && cursorEnabled)}
+      />
+
       <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-6 lg:px-8" style={{ zoom: 0.85 }}>
-        {/* ============================ Section Header ============================ */}
         <div
           className={`mb-12 sm:mb-14 transition-all duration-700 ease-out ${
             sectionVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
@@ -190,7 +312,6 @@ export default function AboutUs() {
           </div>
         </div>
 
-        {/* ============================ Deskripsi Proyek ============================ */}
         <div
           className={`relative mb-14 rounded-2xl border-2 border-slate-900 bg-white p-6 shadow-[6px_6px_0px_0px_#0f172a] transition-all duration-700 ease-out sm:p-8 ${
             sectionVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
@@ -225,7 +346,6 @@ export default function AboutUs() {
           </div>
         </div>
 
-        {/* ============================ Marquee Foto Anggota ============================ */}
         <div
           className={`transition-all duration-700 ease-out ${
             sectionVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
@@ -236,31 +356,55 @@ export default function AboutUs() {
             <h3 className="text-lg font-black text-slate-900 sm:text-xl">Tim Kami</h3>
             <span className="inline-flex items-center gap-1.5 rounded-xl border-2 border-slate-900 bg-[#fef9c3] px-3 py-1 text-[11px] font-black text-slate-950 shadow-[2px_2px_0px_0px_#0f172a]">
               <span aria-hidden="true">👆</span>
-              Klik foto untuk melihat versi berwarna
+              Hover foto untuk detail anggota
             </span>
           </div>
         </div>
 
-        {/* Area marquee dengan fade di kedua sisi */}
-        <div className="about-marquee relative overflow-hidden py-8">
-          <div
-            ref={trackRef}
-            className={`about-marquee-track flex w-max ${activeId ? 'is-paused' : ''}`}
-          >
-            {[0, 1].map((copy) => (
-              <div className="flex shrink-0" key={copy} inert={copy === 1}>
+        <div
+          ref={carouselRef}
+          className="about-marquee relative overflow-hidden py-8"
+        >
+          <div ref={trackRef} className="about-marquee-track flex w-max">
+            {[0, 1, 2].map((copy) => (
+              <div
+                className="flex shrink-0"
+                key={copy}
+                ref={copy === 0 ? firstGroupRef : undefined}
+              >
                 {loopedMembers.map(({ member, accent }, index) => (
                   <MemberCard
                     key={`${copy}-${member.id}`}
                     member={member}
                     accent={accent}
                     index={index}
-                    isActive={activeId === member.id}
-                    onActivate={handleActivate}
+                    isHovered={hoveredMemberId === member.id}
+                    onHoverStart={handleMemberHover}
+                    onHoverEnd={handleMemberLeave}
                   />
                 ))}
               </div>
             ))}
+          </div>
+
+          <div className="mt-4 flex items-center justify-center gap-[20px]">
+            <button
+              type="button"
+              aria-label="Geser ke kiri"
+              onClick={() => handleNavigation('left')}
+              className="flex h-11 w-11 items-center justify-center rounded-xl border-2 border-slate-900 bg-[#fde68a] text-slate-950 shadow-[4px_4px_0px_0px_#0f172a] transition hover:-translate-y-1 hover:bg-[#facc15] active:translate-y-0 active:shadow-[2px_2px_0px_0px_#0f172a] sm:h-12 sm:w-12"
+            >
+              <ChevronLeft size={18} strokeWidth={2.5} />
+            </button>
+
+            <button
+              type="button"
+              aria-label="Geser ke kanan"
+              onClick={() => handleNavigation('right')}
+              className="flex h-11 w-11 items-center justify-center rounded-xl border-2 border-slate-900 bg-[#d9f99d] text-slate-950 shadow-[4px_4px_0px_0px_#0f172a] transition hover:-translate-y-1 hover:bg-[#bef264] active:translate-y-0 active:shadow-[2px_2px_0px_0px_#0f172a] sm:h-12 sm:w-12"
+            >
+              <ChevronRight size={18} strokeWidth={2.5} />
+            </button>
           </div>
         </div>
       </div>

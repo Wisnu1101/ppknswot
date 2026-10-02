@@ -536,7 +536,6 @@ export default function Hero() {
             
             {/* Card 1: Strengths */}
             <div className="rounded-2xl bg-[#ecfccb] text-slate-950 p-4 border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0f172a]">
-              <div className="text-xl mb-2">💪</div>
               <h4 className="text-sm font-black text-slate-950">Kekuatan (Strengths)</h4>
               <p className="mt-1 text-xs text-slate-800 font-medium leading-relaxed">
                 Kekayaan biodiversitas, posisi silang maritim dunia, dan bonus demografi generasi muda produktif.
@@ -545,7 +544,6 @@ export default function Hero() {
 
             {/* Card 2: Weaknesses */}
             <div className="rounded-2xl bg-[#fee2e2] text-slate-950 p-4 border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0f172a]">
-              <div className="text-xl mb-2">⚖️</div>
               <h4 className="text-sm font-black text-slate-950">Kelemahan (Weaknesses)</h4>
               <p className="mt-1 text-xs text-slate-800 font-medium leading-relaxed">
                 Kesenjangan infrastruktur konektivitas antarwilayah dan pemerataan akses pendidikan berkualitas.
@@ -554,7 +552,6 @@ export default function Hero() {
 
             {/* Card 3: Opportunities */}
             <div className="rounded-2xl bg-[#fef9c3] text-slate-950 p-4 border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0f172a]">
-              <div className="text-xl mb-2">🚀</div>
               <h4 className="text-sm font-black text-slate-950">Peluang (Opportunities)</h4>
               <p className="mt-1 text-xs text-slate-800 font-medium leading-relaxed">
                 Hilirisasi industri sumber daya alam, transisi energi hijau terbarukan, dan kepemimpinan di ASEAN.
@@ -563,7 +560,6 @@ export default function Hero() {
 
             {/* Card 4: Threats */}
             <div className="rounded-2xl bg-[#f3e8ff] text-slate-950 p-4 border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0f172a]">
-              <div className="text-xl mb-2">🛡️</div>
               <h4 className="text-sm font-black text-slate-950">Ancaman (Threats)</h4>
               <p className="mt-1 text-xs text-slate-800 font-medium leading-relaxed">
                 Rivalitas geopolitik kawasan, disrupsi keamanan siber, dan kerentanan dampak krisis iklim global.

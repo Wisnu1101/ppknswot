@@ -10,7 +10,7 @@ dengan nomor anggota** (ekstensi bebas):
 | ----- | -------------------------------- | ---------------------------------------- |
 | 1     | Athallah Izzan Bianta            | `anggota-1.jpg` / `anggota-1.webp`       |
 | 2     | Daffa Firas Alfarisi             | `anggota-2.png` / `anggota-2.jpeg`       |
-| 3     | Hanin Maryam Khairunnisa         | `anggota-3.jpg`                          |
+| 3     | Hanin Maryam Khairunnisa         | `anggota-3.png`                          |
 | 4     | Nalendra Wisnu Megananda         | `anggota-4.webp`                         |
 | 5     | Rahma Aulia Putri                | `anggota-5.png`                          |
 | 6     | Risya Oktafiani                  | `anggota-6.jpeg`                         |
