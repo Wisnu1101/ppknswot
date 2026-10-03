@@ -25,9 +25,31 @@ function getLoopedTrackPosition(distance, groupWidth) {
 // - Default: hitam-putih (grayscale)
 // - Hover: penuh warna, tanpa click untuk mengaktifkan
 // ---------------------------------------------------------------------------
-function MemberCard({ member, accent, index, isHovered, onHoverStart, onHoverEnd }) {
+function MemberCard({ member, accent, index, isHovered, isTouch, onHoverStart, onHoverEnd, onSelect }) {
   const [imageFailed, setImageFailed] = useState(false)
   const showFallback = imageFailed || !member.photo
+
+  // Di perangkat sentuh tidak ada event hover, jadi jobdesk dibuka lewat ketukan.
+  const handleMouseEnter = () => {
+    if (isTouch) return
+    onHoverStart(member.id)
+  }
+  const handleMouseLeave = () => {
+    if (isTouch) return
+    onHoverEnd()
+  }
+  const handleFocus = () => {
+    if (isTouch) return
+    onHoverStart(member.id)
+  }
+  const handleBlur = () => {
+    if (isTouch) return
+    onHoverEnd()
+  }
+  const handleClick = () => {
+    if (!isTouch) return
+    onSelect(member.id)
+  }
 
   return (
     <div
@@ -35,10 +57,11 @@ function MemberCard({ member, accent, index, isHovered, onHoverStart, onHoverEnd
         isHovered ? '-translate-y-2' : 'hover:-translate-y-1'
       }`}
       style={{ rotate: `${index % 2 === 0 ? -1.6 : 1.6}deg` }}
-      onMouseEnter={() => onHoverStart(member.id)}
-      onMouseLeave={onHoverEnd}
-      onFocus={() => onHoverStart(member.id)}
-      onBlur={onHoverEnd}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      onClick={handleClick}
       tabIndex={0}
     >
       <div
@@ -86,6 +109,17 @@ function MemberCard({ member, accent, index, isHovered, onHoverStart, onHoverEnd
             <span className="absolute left-2 top-2 z-10 flex h-7 w-7 items-center justify-center rounded-lg border-2 border-slate-900 bg-[#fbf9ed] text-[11px] font-black text-slate-900 shadow-[2px_2px_0px_0px_#0f172a]">
               {String(member.id).padStart(2, '0')}
             </span>
+
+            {/* Jobdesk — khusus perangkat sentuh, muncul saat kartu diketuk */}
+            {isTouch && (
+              <span
+                className={`absolute inset-x-2 bottom-2 z-10 rounded-lg border-2 border-slate-900 bg-[#fef9c3] px-2 py-1 text-center text-[10px] font-black uppercase tracking-[0.12em] text-slate-950 shadow-[2px_2px_0px_0px_#0f172a] transition-all duration-300 ${
+                  isHovered ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-2 opacity-0'
+                }`}
+              >
+                {getMemberRoleLabel(member)}
+              </span>
+            )}
           </div>
         </div>
 
@@ -113,6 +147,7 @@ export default function AboutUs() {
   const [sectionVisible, setSectionVisible] = useState(false)
   const [hoveredMemberId, setHoveredMemberId] = useState(null)
   const [cursorEnabled, setCursorEnabled] = useState(false)
+  const [isTouch, setIsTouch] = useState(false)
   const carouselRef = useRef(null)
   const trackRef = useRef(null)
   const firstGroupRef = useRef(null)
@@ -150,13 +185,17 @@ export default function AboutUs() {
   useEffect(() => {
     if (typeof window === 'undefined') return undefined
 
-    const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)')
-    const updateCursorState = () => setCursorEnabled(mediaQuery.matches)
+    const hoverQuery = window.matchMedia('(hover: hover) and (pointer: fine)')
+    const updateCursorState = () => {
+      const canHover = hoverQuery.matches
+      setCursorEnabled(canHover)
+      setIsTouch(!canHover)
+    }
 
     updateCursorState()
-    mediaQuery.addEventListener?.('change', updateCursorState)
+    hoverQuery.addEventListener?.('change', updateCursorState)
 
-    return () => mediaQuery.removeEventListener?.('change', updateCursorState)
+    return () => hoverQuery.removeEventListener?.('change', updateCursorState)
   }, [])
 
   useEffect(() => {
@@ -264,6 +303,13 @@ export default function AboutUs() {
     setHoveredMemberId(null)
   }
 
+  // Perangkat sentuh: ketuk kartu untuk buka/tutup jobdesk.
+  const handleCardSelect = (id) => {
+    const nextId = hoveredMemberIdRef.current === id ? null : id
+    hoveredMemberIdRef.current = nextId
+    setHoveredMemberId(nextId)
+  }
+
   const dynamicCursorLabel = hoveredMember ? getMemberRoleLabel(hoveredMember) : 'Pemateri'
 
   return (
@@ -355,8 +401,8 @@ export default function AboutUs() {
           <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
             <h3 className="text-lg font-black text-slate-900 sm:text-xl">Tim Kami</h3>
             <span className="inline-flex items-center gap-1.5 rounded-xl border-2 border-slate-900 bg-[#fef9c3] px-3 py-1 text-[11px] font-black text-slate-950 shadow-[2px_2px_0px_0px_#0f172a]">
-              <span aria-hidden="true">👆</span>
-              Hover foto untuk detail anggota
+              <span aria-hidden="true">{isTouch ? '👆' : '🖱️'}</span>
+              {isTouch ? 'Ketuk foto untuk detail anggota' : 'Hover foto untuk detail anggota'}
             </span>
           </div>
         </div>
@@ -379,8 +425,10 @@ export default function AboutUs() {
                     accent={accent}
                     index={index}
                     isHovered={hoveredMemberId === member.id}
+                    isTouch={isTouch}
                     onHoverStart={handleMemberHover}
                     onHoverEnd={handleMemberLeave}
+                    onSelect={handleCardSelect}
                   />
                 ))}
               </div>
